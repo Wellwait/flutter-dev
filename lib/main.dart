@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       // home: LoginScreen(),
       // home: RegistrationScreen(),
       // home: VerificationScreen(),
-      // home: HomeScreen(),
+      home: HomeScreen(),
       // home: FilterScreen(),
       // home: ProfileScreen(),
       // home: SplashScreen(),
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
       // home: NotificationScreen(),
       // home: PaymentScreen(),
       // home: ScanScreen(),
-      home: PaymentCompleted(),
+      // home: PaymentCompleted(),
     );
   }
 }
