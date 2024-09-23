@@ -5,7 +5,7 @@ import 'package:wellwait/common_widgets/custom_text_input.dart';
 import 'package:wellwait/utils/colors.dart';
 
 class RegistrationScreen extends StatefulWidget {
-  RegistrationScreen({super.key});
+  const RegistrationScreen({super.key});
 
   @override
   State<RegistrationScreen> createState() => _RegistrationScreenState();

@@ -4,14 +4,16 @@ class SearchBottomSection extends StatelessWidget {
   final String dummyImage =
       'https://www.fezamutfak.com/pages/dekorasyon/evdekorasyonu/KremRenkliModernSalonDekorasyonu.jpg?w=&h=';
 
+  const SearchBottomSection({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
               'Suggestion for you',
               style: TextStyle(
@@ -20,18 +22,18 @@ class SearchBottomSection extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               children: [
                 _suggestionCard(),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 _suggestionCard(),
               ],
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
         ],
       ),
     );
@@ -39,7 +41,7 @@ class SearchBottomSection extends StatelessWidget {
 
   Widget _suggestionCard() {
     return Container(
-      padding: EdgeInsets.all(12.0),
+      padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16.0),
@@ -48,7 +50,7 @@ class SearchBottomSection extends StatelessWidget {
             color: Colors.grey.withOpacity(0.2),
             spreadRadius: 2,
             blurRadius: 6,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
@@ -66,7 +68,7 @@ class SearchBottomSection extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              Positioned(
+              const Positioned(
                 top: 8,
                 right: 8,
                 child: Icon(Icons.favorite, color: Colors.teal, size: 18),
@@ -75,12 +77,13 @@ class SearchBottomSection extends StatelessWidget {
                 bottom: 8,
                 left: 8,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 6.0, vertical: 2.0),
                   decoration: BoxDecoration(
                     color: Colors.teal.withOpacity(0.8),
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  child: Text(
+                  child: const Text(
                     '1.1km',
                     style: TextStyle(
                       color: Colors.white,
@@ -91,39 +94,39 @@ class SearchBottomSection extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Hair · Facial',
                   style: TextStyle(
                     color: Colors.blue,
                     fontSize: 14,
                   ),
                 ),
-                SizedBox(height: 4),
-                Text(
+                const SizedBox(height: 4),
+                const Text(
                   'Sophisticated Salon',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 4),
-                Text(
+                const SizedBox(height: 4),
+                const Text(
                   '360 Stillwater Rd. Palm City..',
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 12,
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Row(
                   children: [
                     _iconWithText(Icons.star, '4.7 (2.7k)', Colors.amber),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     _iconWithText(Icons.local_offer, '-58%', Colors.teal),
                   ],
                 ),
@@ -139,10 +142,10 @@ class SearchBottomSection extends StatelessWidget {
     return Row(
       children: [
         Icon(icon, color: color, size: 16),
-        SizedBox(width: 4),
+        const SizedBox(width: 4),
         Text(
           text,
-          style: TextStyle(fontSize: 12),
+          style: const TextStyle(fontSize: 12),
         ),
       ],
     );

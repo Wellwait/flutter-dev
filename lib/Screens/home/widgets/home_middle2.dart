@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:wellwait/dummydata.dart'; // Ensure this import is correct
 
 class HomeMiddle2 extends StatelessWidget {
+  const HomeMiddle2({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -12,7 +14,7 @@ class HomeMiddle2 extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 'Top Rated Salon',
                 style: TextStyle(
                   fontSize: 18.0,
@@ -23,7 +25,7 @@ class HomeMiddle2 extends StatelessWidget {
                 onPressed: () {
                   // Add your onPressed code here!
                 },
-                child: Text(
+                child: const Text(
                   'View all',
                   style: TextStyle(color: Colors.blue),
                 ),
@@ -31,7 +33,7 @@ class HomeMiddle2 extends StatelessWidget {
             ],
           ),
         ),
-        Container(
+        SizedBox(
           height: 250, // Set the height explicitly to avoid RenderFlex errors
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
@@ -39,7 +41,7 @@ class HomeMiddle2 extends StatelessWidget {
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.only(left: 16.0),
-                child: Container(
+                child: SizedBox(
                   width: 200, // Set the width of each card
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,7 +54,7 @@ class HomeMiddle2 extends StatelessWidget {
                             width: double.infinity,
                             height: 150,
                           ),
-                          Positioned(
+                          const Positioned(
                             top: 8.0,
                             right: 8.0,
                             child: Icon(
@@ -62,21 +64,21 @@ class HomeMiddle2 extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: 8.0),
-                      Text(
+                      const SizedBox(height: 8.0),
+                      const Text(
                         'Plush Beauty Lounge',
                         style: TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 4.0),
-                      Text(
+                      const SizedBox(height: 4.0),
+                      const Text(
                         '2607 Haymond Rocks',
                         style: TextStyle(color: Colors.grey),
                       ),
-                      SizedBox(height: 4.0),
-                      Row(
+                      const SizedBox(height: 4.0),
+                      const Row(
                         children: [
                           Icon(
                             Icons.star,

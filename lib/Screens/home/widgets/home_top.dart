@@ -3,12 +3,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeTop extends StatelessWidget {
+  const HomeTop({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
@@ -18,7 +20,7 @@ class HomeTop extends StatelessWidget {
                 backgroundColor:
                     Colors.grey[300], // Placeholder for profile image
               ),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,17 +30,17 @@ class HomeTop extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontSize: 20, // Adjusted size to match
                         fontWeight: FontWeight.w700,
-                        color: Color(0xFF111111),
+                        color: const Color(0xFF111111),
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
                       'Find the service you want, and treat yourself',
                       style: GoogleFonts.nunitoSans(
                         fontSize: 12, // Adjusted size to match
                         fontWeight: FontWeight.w400,
                         letterSpacing: 0.2,
-                        color: Color(0xFF50555C),
+                        color: const Color(0xFF50555C),
                       ),
                     ),
                   ],
@@ -48,8 +50,8 @@ class HomeTop extends StatelessWidget {
                 icon: Container(
                   width: 40,
                   height: 40,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF008080),
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF008080),
                     shape: BoxShape.circle,
                   ),
                   child: Center(
@@ -66,7 +68,7 @@ class HomeTop extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 16), // Add some space before the search box
+        const SizedBox(height: 16), // Add some space before the search box
         Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -81,7 +83,7 @@ class HomeTop extends StatelessWidget {
                     color: Colors.black
                         .withOpacity(0.1), // Shadow color with slight opacity
                     blurRadius: 5,
-                    offset: Offset(0, 2), // Offset of the shadow
+                    offset: const Offset(0, 2), // Offset of the shadow
                   ),
                 ],
               ),
@@ -89,9 +91,9 @@ class HomeTop extends StatelessWidget {
                 mainAxisAlignment:
                     MainAxisAlignment.spaceBetween, // Spacing between elements
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16.0),
-                    child: Icon(Icons.search, color: const Color(0xFF009688)),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 16.0),
+                    child: Icon(Icons.search, color: Color(0xFF009688)),
                   ),
                   Expanded(
                     child: TextField(
@@ -102,7 +104,7 @@ class HomeTop extends StatelessWidget {
                         hintStyle: GoogleFonts.outfit(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
-                          color: Color(0x87505050),
+                          color: const Color(0x87505050),
                         ),
                       ),
                     ),
@@ -120,7 +122,7 @@ class HomeTop extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Container(
@@ -138,7 +140,7 @@ class HomeTop extends StatelessWidget {
                     fit: BoxFit.cover, // Fit image to cover the container
                   ),
                 ),
-                Positioned(
+                const Positioned(
                   left: 16,
                   top: 16,
                   child: Text(
@@ -161,19 +163,19 @@ class HomeTop extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {},
-                    child: Text('Get offer now!'),
+                    child: const Text('Get offer now!'),
                   ),
                 ),
                 Positioned(
                   right: 16,
                   bottom: 16,
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.yellow,
                       shape: BoxShape.circle,
                     ),
-                    padding: EdgeInsets.all(16),
-                    child: Text(
+                    padding: const EdgeInsets.all(16),
+                    child: const Text(
                       'Up to\n60%',
                       textAlign: TextAlign.center,
                       style: TextStyle(

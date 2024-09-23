@@ -6,6 +6,8 @@ void main() {
 }
 
 class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,12 +15,12 @@ class ProfileScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios, color: Colors.teal),
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.teal),
             onPressed: () {
               // Go back
             },
           ),
-          title: Text('Profile', style: TextStyle(color: Colors.teal)),
+          title: const Text('Profile', style: TextStyle(color: Colors.teal)),
           centerTitle: true,
           elevation: 0,
         ),
@@ -28,7 +30,7 @@ class ProfileScreen extends StatelessWidget {
               color: Colors.teal.shade100, // Color of the divider
               height: 1, // Height of the divider
             ),
-            SizedBox(
+            const SizedBox(
                 height: 2), // Minimal space between divider and profile image
             Expanded(child: ProfilePage()),
           ],
@@ -40,6 +42,8 @@ class ProfileScreen extends StatelessWidget {
 }
 
 class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -63,16 +67,16 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                     CustomPaint(
-                      size: Size(117, 117),
+                      size: const Size(117, 117),
                       painter: HalfCirclePainter(),
                     ),
                   ],
                 ),
-                SizedBox(width: 20), // Space between image and text
-                Container(
+                const SizedBox(width: 20), // Space between image and text
+                SizedBox(
                   width: 160,
                   height: 64,
-                  child: Column(
+                  child: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -96,7 +100,7 @@ class ProfilePage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 30), // Space between header and buttons
+            const SizedBox(height: 30), // Space between header and buttons
             ProfileButton(
                 icon: SvgPicture.asset('assets/icons/favorite.svg'),
                 label: 'Favorite'),
@@ -118,22 +122,23 @@ class ProfilePage extends StatelessWidget {
             ProfileButton(
                 icon: SvgPicture.asset('assets/icons/HelpFAQs.svg'),
                 label: 'Help & FAQs'),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             Align(
               alignment: Alignment.centerLeft, // Aligns the button to the left
               child: ElevatedButton.icon(
                 onPressed: () {
                   // Log out action
                 },
-                icon: Icon(Icons.logout, color: Colors.white),
-                label: Text('Log Out'),
+                icon: const Icon(Icons.logout, color: Colors.white),
+                label: const Text('Log Out'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.teal,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 ),
               ),
             ),
@@ -173,7 +178,7 @@ class ProfileButton extends StatelessWidget {
   final Widget icon; // Changed from IconData to Widget
   final String label;
 
-  ProfileButton({required this.icon, required this.label});
+  const ProfileButton({super.key, required this.icon, required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -192,13 +197,13 @@ class ProfileButton extends StatelessWidget {
             child: Text(label),
           ),
           style: OutlinedButton.styleFrom(
-            side: BorderSide(color: Colors.teal),
+            side: const BorderSide(color: Colors.teal),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
             ),
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             foregroundColor: Colors.teal,
-            textStyle: TextStyle(fontSize: 16),
+            textStyle: const TextStyle(fontSize: 16),
           ),
         ),
       ),

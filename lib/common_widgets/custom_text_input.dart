@@ -8,11 +8,11 @@ class CustomTextInput extends StatelessWidget {
   final Widget? prefixIcon;
 
   const CustomTextInput({
-    Key? key,
+    super.key,
     required this.hintText,
     required this.controller,
     this.prefixIcon,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class CustomTextInput extends StatelessWidget {
           borderSide: const BorderSide(color: Colors.teal),
         ),
         filled: true,
-        hintStyle: TextStyle(color: hintTextColor),
+        hintStyle: const TextStyle(color: hintTextColor),
         fillColor: const Color(0xFFE0F7F8),
         contentPadding:
             const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
@@ -51,9 +51,9 @@ class CustomPhoneInput extends StatelessWidget {
   final TextEditingController controller;
 
   const CustomPhoneInput({
-    Key? key,
+    super.key,
     required this.controller,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class CustomPhoneInput extends StatelessWidget {
 
       decoration: InputDecoration(
         hintText: 'Enter your number',
-        hintStyle: TextStyle(color: hintTextColor),
+        hintStyle: const TextStyle(color: hintTextColor),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
           borderSide: const BorderSide(color: primaryColor),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PaymentCompleted extends StatelessWidget {
+  const PaymentCompleted({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -8,7 +10,7 @@ class PaymentCompleted extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.close, color: Colors.black),
+          icon: const Icon(Icons.close, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -24,7 +26,7 @@ class PaymentCompleted extends StatelessWidget {
               alignment: Alignment.center,
               children: [
                 // Dots around the icon (You can customize the decoration for better effect)
-                Container(
+                SizedBox(
                   height: 120,
                   width: 120,
                   child: Stack(
@@ -35,7 +37,7 @@ class PaymentCompleted extends StatelessWidget {
                               (i % 2 == 0 ? 1 : -1).toDouble(),
                           left: (i.isEven ? 40 : 20) *
                               (i % 3 == 0 ? 1 : -1).toDouble(),
-                          child: CircleAvatar(
+                          child: const CircleAvatar(
                             radius: 5,
                             backgroundColor: Colors.teal,
                           ),
@@ -44,16 +46,16 @@ class PaymentCompleted extends StatelessWidget {
                   ),
                 ),
                 // Circular icon with checkmark
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 50,
                   backgroundColor: Colors.teal,
                   child: Icon(Icons.check, size: 50, color: Colors.white),
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             // Success Message
-            Text(
+            const Text(
               'Payment Completed\nSuccessfully!',
               textAlign: TextAlign.center,
               style: TextStyle(

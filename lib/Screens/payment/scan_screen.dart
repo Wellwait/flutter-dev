@@ -3,6 +3,8 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class ScanScreen extends StatefulWidget {
+  const ScanScreen({super.key});
+
   @override
   _ScanScreenState createState() => _ScanScreenState();
 }
@@ -12,8 +14,8 @@ class _ScanScreenState extends State<ScanScreen> {
 
   // Function to pick image from gallery
   Future<void> _pickImage() async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
     setState(() {
       _image = image;
     });
@@ -26,7 +28,7 @@ class _ScanScreenState extends State<ScanScreen> {
         backgroundColor: Colors.white, // White app bar background
         elevation: 0, // Removes app bar shadow
         leading: IconButton(
-          icon: Icon(Icons.close, color: Colors.black), // Close icon
+          icon: const Icon(Icons.close, color: Colors.black), // Close icon
           onPressed: () {
             Navigator.pop(context); // Action for closing the screen
           },
@@ -55,7 +57,7 @@ class _ScanScreenState extends State<ScanScreen> {
                         child: Container(
                           color: Colors.grey[
                               200], // Light grey background for the placeholder
-                          child: Icon(Icons.photo,
+                          child: const Icon(Icons.photo,
                               size: 100,
                               color: Colors.black26), // Placeholder icon
                         ),
@@ -63,23 +65,23 @@ class _ScanScreenState extends State<ScanScreen> {
                     : Image.file(File(_image!.path), fit: BoxFit.cover),
               ),
             ),
-            SizedBox(height: 20), // Spacing between image box and button
+            const SizedBox(height: 20), // Spacing between image box and button
 
             // Upload Button
-            Container(
+            SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: _pickImage,
-                icon: Icon(Icons.image,
+                icon: const Icon(Icons.image,
                     color: Colors.black), // Icon for gallery upload
-                label: Text(
+                label: const Text(
                   'Upload from gallery',
                   style: TextStyle(color: Colors.black), // Text color
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor:
                       Colors.grey[200], // Light grey background for button
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                       vertical: 15), // Height of the button
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(

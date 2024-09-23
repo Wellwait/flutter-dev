@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeMiddle1 extends StatelessWidget {
+  const HomeMiddle1({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
+        const Padding(
+          padding: EdgeInsets.all(16.0),
           child: Text(
             'What do you want to do?',
             style: TextStyle(
@@ -28,13 +30,13 @@ class HomeMiddle1 extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: GridView.count(
             crossAxisCount: 4,
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             children: [
               _buildServiceIcon(
                   'Haircut', SvgPicture.asset('assets/icons/haircut.svg')),
@@ -83,10 +85,10 @@ class HomeMiddle1 extends StatelessWidget {
           backgroundColor: Colors.teal[50],
           child: icon,
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
           label,
-          style: TextStyle(fontSize: 12, color: Colors.black),
+          style: const TextStyle(fontSize: 12, color: Colors.black),
         ),
       ],
     );

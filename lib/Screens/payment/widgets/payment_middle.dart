@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PaymentMiddle extends StatefulWidget {
+  const PaymentMiddle({super.key});
+
   @override
   _PaymentMiddleState createState() => _PaymentMiddleState();
 }
@@ -32,7 +34,7 @@ class _PaymentMiddleState extends State<PaymentMiddle> {
           child: GestureDetector(
             onTap: _toggleUpiOptions, // Toggle UPI options visibility
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
               decoration: BoxDecoration(
                 border: Border.all(
                     color: _isUpiOptionsVisible ? Colors.teal : Colors.grey),
@@ -45,8 +47,8 @@ class _PaymentMiddleState extends State<PaymentMiddle> {
                     children: [
                       Image.asset('assets/icons/upi.png',
                           width: 30), // Replace with the UPI logo path
-                      SizedBox(width: 10),
-                      Text('UPI Pay'),
+                      const SizedBox(width: 10),
+                      const Text('UPI Pay'),
                     ],
                   ),
                   Icon(
@@ -78,7 +80,7 @@ class _PaymentMiddleState extends State<PaymentMiddle> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Google Pay'),
+                          const Text('Google Pay'),
                           Image.asset('assets/icons/gpay.png',
                               width:
                                   30), // Replace with the Google Pay logo path
@@ -94,13 +96,13 @@ class _PaymentMiddleState extends State<PaymentMiddle> {
                       width: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(vertical: 15),
+                          padding: const EdgeInsets.symmetric(vertical: 15),
                           backgroundColor: Colors.teal,
                         ),
                         onPressed: () {
                           // Handle Pay action
                         },
-                        child: Text(
+                        child: const Text(
                           'Pay Rs: 1250',
                           style: TextStyle(fontSize: 16),
                         ),
@@ -108,7 +110,7 @@ class _PaymentMiddleState extends State<PaymentMiddle> {
                     ),
                   ),
                 // Divider Line
-                Divider(
+                const Divider(
                   color: Colors.grey,
                   thickness: 1,
                 ),
@@ -120,7 +122,7 @@ class _PaymentMiddleState extends State<PaymentMiddle> {
                       groupValue: _selectedUPIOption,
                       onChanged: _setSelectedUPIOption,
                     ),
-                    Text('Add new UPI ID'),
+                    const Text('Add new UPI ID'),
                   ],
                 ),
               ],

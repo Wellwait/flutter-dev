@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PaymentBottom extends StatefulWidget {
+  const PaymentBottom({super.key});
+
   @override
   _PaymentBottomState createState() => _PaymentBottomState();
 }
@@ -25,7 +27,7 @@ class _PaymentBottomState extends State<PaymentBottom> {
           child: GestureDetector(
             onTap: _toggleScanPay,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(8),
@@ -37,8 +39,8 @@ class _PaymentBottomState extends State<PaymentBottom> {
                     children: [
                       Image.asset('assets/icons/scanpay.png',
                           width: 30), // Replace with the Scan & Pay logo path
-                      SizedBox(width: 10),
-                      Text('Scan & Pay'),
+                      const SizedBox(width: 10),
+                      const Text('Scan & Pay'),
                     ],
                   ),
                   Icon(
@@ -51,8 +53,8 @@ class _PaymentBottomState extends State<PaymentBottom> {
           ),
         ),
         if (_isScanPayExpanded)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
                 // Add content related to Scan & Pay if necessary
@@ -60,8 +62,8 @@ class _PaymentBottomState extends State<PaymentBottom> {
             ),
           ),
         // Other Section
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Text(
             'Other',
             style: TextStyle(
@@ -79,7 +81,7 @@ class _PaymentBottomState extends State<PaymentBottom> {
               // Handle cash payment action
             },
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(8),
@@ -88,8 +90,8 @@ class _PaymentBottomState extends State<PaymentBottom> {
                 children: [
                   Image.asset('assets/icons/cash.png',
                       width: 30), // Replace with the cash icon path
-                  SizedBox(width: 10),
-                  Text('Pay through Cash'),
+                  const SizedBox(width: 10),
+                  const Text('Pay through Cash'),
                 ],
               ),
             ),

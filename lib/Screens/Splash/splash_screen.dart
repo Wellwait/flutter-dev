@@ -6,7 +6,7 @@ void main() {
 }
 
 class SplashScreenApp extends StatelessWidget {
-  const SplashScreenApp({Key? key}) : super(key: key);
+  const SplashScreenApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class SplashScreenApp extends StatelessWidget {
 }
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -88,11 +88,11 @@ class _SplashScreenState extends State<SplashScreen>
   Widget _buildWellWaitText() {
     return RichText(
       textAlign: TextAlign.left,
-      text: TextSpan(
+      text: const TextSpan(
         children: [
           TextSpan(
             text: 'Well',
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.black,
               fontFamily: 'Roboto',
               fontSize: 33.0,
@@ -103,7 +103,7 @@ class _SplashScreenState extends State<SplashScreen>
           ),
           TextSpan(
             text: 'Wait',
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.teal,
               fontFamily: 'Roboto',
               fontSize: 33.0,
@@ -118,9 +118,9 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Widget _buildSmoothText() {
-    return Text(
+    return const Text(
       '"Smooth your wait,\nease your time"',
-      style: const TextStyle(
+      style: TextStyle(
         color: Colors.black,
         fontFamily: 'Roboto',
         fontSize: 33.0,

@@ -5,6 +5,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,6 +17,8 @@ class MyApp extends StatelessWidget {
 }
 
 class WelcomeScreen extends StatefulWidget {
+  const WelcomeScreen({super.key});
+
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
@@ -84,7 +88,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             right: 0,
             child: Container(
               height: 41, // Set the height to 41 as per the image
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                   horizontal: 16.0), // Add padding for left and right
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,7 +97,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     onPressed: () {
                       // Implement skip logic here
                     },
-                    child: Text(
+                    child: const Text(
                       "Skip",
                       style: TextStyle(color: Colors.grey),
                     ),
@@ -105,11 +109,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     }),
                   ),
                   IconButton(
-                    icon: Icon(Icons.arrow_forward, color: Colors.teal),
+                    icon: const Icon(Icons.arrow_forward, color: Colors.teal),
                     onPressed: () {
                       if (_currentPage < 3) {
                         _pageController.nextPage(
-                          duration: Duration(milliseconds: 500),
+                          duration: const Duration(milliseconds: 500),
                           curve: Curves.easeInOut,
                         );
                       } else {
@@ -140,7 +144,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         Positioned(
           top: top,
           left: left,
-          child: Container(
+          child: SizedBox(
             width: width,
             height: height,
             child: Padding(
@@ -150,14 +154,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
                       color: Colors.teal,
                     ),
                     textAlign: TextAlign.left,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     subtitle,
                     style: TextStyle(
@@ -177,8 +181,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   Widget _buildIndicator(bool isActive) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
-      margin: EdgeInsets.symmetric(horizontal: 4.0),
+      duration: const Duration(milliseconds: 300),
+      margin: const EdgeInsets.symmetric(horizontal: 4.0),
       height: 8.0,
       width: isActive ? 24.0 : 8.0,
       decoration: BoxDecoration(

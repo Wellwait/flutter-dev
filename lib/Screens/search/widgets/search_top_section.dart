@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SearchTopSection extends StatelessWidget {
+  const SearchTopSection({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -13,10 +15,10 @@ class SearchTopSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
-                icon: Icon(Icons.arrow_back),
+                icon: const Icon(Icons.arrow_back),
                 onPressed: () {},
               ),
-              Expanded(
+              const Expanded(
                 child: Text(
                   'Search',
                   style: TextStyle(
@@ -27,7 +29,7 @@ class SearchTopSection extends StatelessWidget {
                 ),
               ),
               IconButton(
-                icon: Icon(Icons.filter_list),
+                icon: const Icon(Icons.filter_list),
                 onPressed: () {},
               ),
             ],
@@ -39,10 +41,10 @@ class SearchTopSection extends StatelessWidget {
             width: 361, // Width set to 361
             height: 48, // Height set to 48
             decoration: BoxDecoration(
-              color: Color(0xFFF1F4F8),
+              color: const Color(0xFFF1F4F8),
               borderRadius: BorderRadius.circular(24.0), // Fully rounded
             ),
-            child: Row(
+            child: const Row(
               children: [
                 SizedBox(width: 8),
                 Icon(Icons.search, color: Colors.grey),
@@ -60,14 +62,14 @@ class SearchTopSection extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 24),
+        const SizedBox(height: 24),
         // Recents section with lines between items
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 'Recents',
                 style: TextStyle(
                   color: Colors.grey,
@@ -76,7 +78,7 @@ class SearchTopSection extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {},
-                child: Text(
+                child: const Text(
                   'Clear all',
                   style: TextStyle(color: Colors.blue),
                 ),
@@ -84,7 +86,7 @@ class SearchTopSection extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
@@ -97,9 +99,9 @@ class SearchTopSection extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 24),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        const SizedBox(height: 24),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
             'Popular Search',
             style: TextStyle(
@@ -108,7 +110,7 @@ class SearchTopSection extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Wrap(
@@ -135,12 +137,12 @@ class SearchTopSection extends StatelessWidget {
         children: [
           Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18, // Increased text size
               fontWeight: FontWeight.w500, // Slightly bolder
             ),
           ),
-          Icon(Icons.close, color: Colors.grey),
+          const Icon(Icons.close, color: Colors.grey),
         ],
       ),
     );
@@ -149,7 +151,7 @@ class SearchTopSection extends StatelessWidget {
   Widget _searchTag(String text) {
     return Chip(
       label: Text(text),
-      backgroundColor: Color(0xFFF1F4F8),
+      backgroundColor: const Color(0xFFF1F4F8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
       ),

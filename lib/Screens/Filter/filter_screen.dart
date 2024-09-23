@@ -5,6 +5,8 @@ void main() {
 }
 
 class FilterScreen extends StatefulWidget {
+  const FilterScreen({super.key});
+
   @override
   _FilterScreenState createState() => _FilterScreenState();
 }
@@ -13,8 +15,8 @@ class _FilterScreenState extends State<FilterScreen> {
   String selectedService = 'Nails';
   int selectedRating = 4;
   String selectedServiceFor = 'All';
-  RangeValues distanceRange = RangeValues(0, 15);
-  RangeValues priceRange = RangeValues(500, 1500);
+  RangeValues distanceRange = const RangeValues(0, 15);
+  RangeValues priceRange = const RangeValues(500, 1500);
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +27,12 @@ class _FilterScreenState extends State<FilterScreen> {
           onPressed: () {
             // Handle cancel action
           },
-          child: Text(
+          child: const Text(
             'Cancel',
             style: TextStyle(color: Colors.grey, fontSize: 16),
           ),
         ),
-        title: Text(
+        title: const Text(
           'Filter',
           style: TextStyle(color: Colors.black, fontSize: 18),
         ),
@@ -40,7 +42,7 @@ class _FilterScreenState extends State<FilterScreen> {
             onPressed: () {
               // Handle reset action
             },
-            child: Text(
+            child: const Text(
               'Reset',
               style: TextStyle(color: Colors.grey, fontSize: 16),
             ),
@@ -57,34 +59,34 @@ class _FilterScreenState extends State<FilterScreen> {
             // Service Section
             Row(
               children: [
-                Text('Service', style: TextStyle(fontSize: 18)),
-                Spacer(),
+                const Text('Service', style: TextStyle(fontSize: 18)),
+                const Spacer(),
                 TextButton(
                   onPressed: () {
                     // Handle see all action
                   },
-                  child: Text(
+                  child: const Text(
                     'See all',
                     style: TextStyle(color: Colors.teal, fontSize: 16),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               children: [
                 _buildServiceButton('Nails'),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 _buildServiceButton('Haircut'),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 _buildServiceButton('Spa'),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Rating Section
-            Text('Rating', style: TextStyle(fontSize: 18)),
-            SizedBox(height: 10),
+            const Text('Rating', style: TextStyle(fontSize: 18)),
+            const SizedBox(height: 10),
             Row(
               children: [
                 _buildRatingStar(1),
@@ -92,31 +94,31 @@ class _FilterScreenState extends State<FilterScreen> {
                 _buildRatingStar(3),
                 _buildRatingStar(4),
                 _buildRatingStar(5),
-                SizedBox(width: 10),
-                Text('${selectedRating} Star'),
+                const SizedBox(width: 10),
+                Text('$selectedRating Star'),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Service For Section
-            Text('Service for', style: TextStyle(fontSize: 18)),
-            SizedBox(height: 10),
+            const Text('Service for', style: TextStyle(fontSize: 18)),
+            const SizedBox(height: 10),
             Row(
               children: [
                 _buildServiceForButton('All'),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 _buildServiceForButton('Woman'),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 _buildServiceForButton('Men'),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 _buildServiceForButton('Kids'),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Distance Slider
-            Text('Distance', style: TextStyle(fontSize: 18)),
-            SizedBox(height: 10),
+            const Text('Distance', style: TextStyle(fontSize: 18)),
+            const SizedBox(height: 10),
             RangeSlider(
               values: distanceRange,
               min: 0,
@@ -134,11 +136,11 @@ class _FilterScreenState extends State<FilterScreen> {
               activeColor: Colors.teal,
               inactiveColor: Colors.grey,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Price Range Slider
-            Text('Price Range', style: TextStyle(fontSize: 18)),
-            SizedBox(height: 10),
+            const Text('Price Range', style: TextStyle(fontSize: 18)),
+            const SizedBox(height: 10),
             RangeSlider(
               values: priceRange,
               min: 500,
@@ -156,7 +158,7 @@ class _FilterScreenState extends State<FilterScreen> {
               activeColor: Colors.teal,
               inactiveColor: Colors.grey,
             ),
-            Spacer(),
+            const Spacer(),
 
             // Show Result Button
             SizedBox(
@@ -165,17 +167,17 @@ class _FilterScreenState extends State<FilterScreen> {
                 onPressed: () {
                   // Handle show result action
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.teal,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
                 child: Text(
                   'Show Result',
                   style: TextStyle(
                     color: Colors.white,
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.teal,
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
                   ),
                 ),
               ),
@@ -197,9 +199,9 @@ class _FilterScreenState extends State<FilterScreen> {
       style: ElevatedButton.styleFrom(
         backgroundColor: isSelected ? Colors.teal : Colors.white,
         foregroundColor: isSelected ? Colors.white : Colors.teal,
-        side: BorderSide(color: Colors.teal),
+        side: const BorderSide(color: Colors.teal),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
       ),
       child: Text(service),
     );
@@ -230,9 +232,9 @@ class _FilterScreenState extends State<FilterScreen> {
       style: ElevatedButton.styleFrom(
         backgroundColor: isSelected ? Colors.teal : Colors.white,
         foregroundColor: isSelected ? Colors.white : Colors.teal,
-        side: BorderSide(color: Colors.teal),
+        side: const BorderSide(color: Colors.teal),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
       ),
       child: Text(serviceFor),
     );

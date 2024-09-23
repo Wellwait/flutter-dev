@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart'; // Import for SVG
 import 'package:wellwait/dummydata.dart';
 
 class HomeBottom extends StatelessWidget {
+  const HomeBottom({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -55,7 +57,8 @@ class SearchInterestItem extends StatelessWidget {
   final Widget icon; // Changed IconData to Widget
   final String label;
 
-  SearchInterestItem({required this.icon, required this.label});
+  const SearchInterestItem(
+      {super.key, required this.icon, required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +77,8 @@ class SalonCard extends StatelessWidget {
   final String address;
   final String rating;
 
-  SalonCard({
+  const SalonCard({
+    super.key,
     required this.imagePath,
     required this.title,
     required this.address,
@@ -103,21 +107,22 @@ class SalonCard extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18.0,
                         ),
                       ),
                       Text(
                         address,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 14.0,
                         ),
                       ),
                       Row(
                         children: [
-                          Icon(Icons.star, color: Colors.amber, size: 16.0),
+                          const Icon(Icons.star,
+                              color: Colors.amber, size: 16.0),
                           Text(rating),
                         ],
                       ),
@@ -130,7 +135,7 @@ class SalonCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.favorite_border),
+                        icon: const Icon(Icons.favorite_border),
                         onPressed: () {
                           // Handle favorite action
                         },
@@ -139,7 +144,7 @@ class SalonCard extends StatelessWidget {
                         onPressed: () {
                           // Handle book action
                         },
-                        child: Text('Book'),
+                        child: const Text('Book'),
                       ),
                     ],
                   ),

@@ -12,11 +12,11 @@ class PaymentScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 245, 246, 246),
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Payment Mode',
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             // Handle back action
             Navigator.of(context).pop(); // Example back navigation

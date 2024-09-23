@@ -11,7 +11,7 @@ class CustomButton extends StatelessWidget {
   final Widget? iconWidget;
 
   const CustomButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.onPressed,
     this.color,
@@ -19,7 +19,7 @@ class CustomButton extends StatelessWidget {
     this.isBordered = false,
     this.icon,
     this.iconWidget,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -54,13 +54,6 @@ class CustomButton extends StatelessWidget {
               onPressed: onPressed,
             )
           : ElevatedButton(
-              child: Text(
-                text,
-                style: TextStyle(
-                  color: textColor ?? Colors.black,
-                  fontSize: 16,
-                ),
-              ),
               style: ElevatedButton.styleFrom(
                 foregroundColor: textColor ?? Colors.black,
                 backgroundColor: color ?? Colors.transparent,
@@ -74,6 +67,13 @@ class CustomButton extends StatelessWidget {
                 ),
               ),
               onPressed: onPressed,
+              child: Text(
+                text,
+                style: TextStyle(
+                  color: textColor ?? Colors.black,
+                  fontSize: 16,
+                ),
+              ),
             ),
     );
   }

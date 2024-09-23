@@ -8,12 +8,14 @@ import 'package:wellwait/Screens/Welcome/welcome_screen.dart';
 import 'package:wellwait/Screens/auth/login_screen.dart';
 import 'package:wellwait/Screens/auth/registration_screen.dart';
 import 'package:wellwait/Screens/auth/verification_screen.dart';
+import 'package:wellwait/Screens/booking/booking_screen.dart';
 import 'package:wellwait/Screens/home/home_screen.dart';
 import 'package:wellwait/Screens/notification/notification_screen.dart';
 import 'package:wellwait/Screens/payment/payment_completed.dart';
 import 'package:wellwait/Screens/payment/scan_screen.dart';
 import 'package:wellwait/Screens/search/search_screen.dart';
 import 'package:wellwait/Screens/payment/payment_screen.dart';
+import 'package:wellwait/Screens/booking/booking_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,7 +37,6 @@ class MyApp extends StatelessWidget {
       // home: LoginScreen(),
       // home: RegistrationScreen(),
       // home: VerificationScreen(),
-      home: HomeScreen(),
       // home: FilterScreen(),
       // home: ProfileScreen(),
       // home: SplashScreen(),
@@ -44,6 +45,8 @@ class MyApp extends StatelessWidget {
       // home: PaymentScreen(),
       // home: ScanScreen(),
       // home: PaymentCompleted(),
+      // home: SearchScreen(),
+      home: BookingScreen(),
     );
   }
 }

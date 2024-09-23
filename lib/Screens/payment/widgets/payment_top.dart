@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PaymentTop extends StatefulWidget {
+  const PaymentTop({super.key});
+
   @override
   _PaymentTopState createState() => _PaymentTopState();
 }
@@ -20,8 +22,8 @@ class _PaymentTopState extends State<PaymentTop> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Total Amount
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -42,7 +44,7 @@ class _PaymentTopState extends State<PaymentTop> {
           child: GestureDetector(
             onTap: _toggleCardDetails,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(8),
@@ -50,7 +52,7 @@ class _PaymentTopState extends State<PaymentTop> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
+                  const Row(
                     children: [
                       Icon(Icons.credit_card, color: Colors.black54),
                       SizedBox(width: 10),
@@ -85,7 +87,7 @@ class _PaymentTopState extends State<PaymentTop> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 // Expiry Date and CVV
                 Row(
                   children: [
@@ -102,7 +104,7 @@ class _PaymentTopState extends State<PaymentTop> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     // CVV Input
                     Expanded(
                       child: TextField(
@@ -118,20 +120,20 @@ class _PaymentTopState extends State<PaymentTop> {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 // Pay Button
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 15),
+                      padding: const EdgeInsets.symmetric(vertical: 15),
                       backgroundColor:
                           Colors.teal, // Adjust to desired button color
                     ),
                     onPressed: () {
                       // Payment action
                     },
-                    child: Text(
+                    child: const Text(
                       'Pay Rs: 1250',
                       style: TextStyle(fontSize: 16),
                     ),

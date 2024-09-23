@@ -22,7 +22,7 @@ class LoginScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Spacer(),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Center(
@@ -59,7 +59,7 @@ class LoginScreen extends StatelessWidget {
                     style: TextStyle(color: hintTextColor, fontSize: 14),
                   ),
                   // const SizedBox(height: 50),
-                  Spacer(),
+                  const Spacer(),
                   const Text(
                     'Phone Number',
                     style: TextStyle(
@@ -114,7 +114,7 @@ class LoginScreen extends StatelessWidget {
                     },
                     color: Colors.white,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   CustomButton(
@@ -127,7 +127,7 @@ class LoginScreen extends StatelessWidget {
                     },
                     color: Colors.white,
                   ),
-                  Spacer(),
+                  const Spacer(),
                 ],
               ),
             ),
