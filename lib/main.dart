@@ -9,6 +9,7 @@ import 'package:wellwait/Screens/auth/login_screen.dart';
 import 'package:wellwait/Screens/auth/registration_screen.dart';
 import 'package:wellwait/Screens/auth/verification_screen.dart';
 import 'package:wellwait/Screens/booking/booking_screen.dart';
+import 'package:wellwait/Screens/booking2/booking_screen2.dart';
 import 'package:wellwait/Screens/home/home_screen.dart';
 import 'package:wellwait/Screens/notification/notification_screen.dart';
 import 'package:wellwait/Screens/payment/payment_completed.dart';
@@ -46,7 +47,8 @@ class MyApp extends StatelessWidget {
       // home: ScanScreen(),
       // home: PaymentCompleted(),
       // home: SearchScreen(),
-      home: BookingScreen(),
+      // home: BookingScreen(),
+      home: BookingScreen2(),
     );
   }
 }

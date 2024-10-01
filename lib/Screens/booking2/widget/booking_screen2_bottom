@@ -1,0 +1,115 @@
+import 'package:flutter/material.dart';
+
+class BookingScreen2Bottom extends StatelessWidget {
+  const BookingScreen2Bottom({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Panel Header
+          Container(
+            padding: EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.blue.shade50,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Panel",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  "Panel 1\nQueue - 04",
+                  style: TextStyle(
+                    color: Colors.grey.shade600,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
+
+          // Bill Summary
+          Text(
+            "Bill Summary",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+          SizedBox(height: 16),
+
+          // Services and Platform fee
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Services", style: TextStyle(fontSize: 16)),
+                  Text("1200", style: TextStyle(fontSize: 16)),
+                ],
+              ),
+              SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Platform fee", style: TextStyle(fontSize: 16)),
+                  Text("50", style: TextStyle(fontSize: 16)),
+                ],
+              ),
+              SizedBox(height: 8),
+              Divider(), // Horizontal line
+              SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Total price", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                  Text("1250", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                ],
+              ),
+              SizedBox(height: 8),
+              Divider(), // Horizontal line
+            ],
+          ),
+          SizedBox(height: 20),
+
+          // Book Button
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                // Add your booking action here
+              },
+              style: ElevatedButton.styleFrom(
+                background: Colors.teal, // Button color
+                padding: EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Text(
+                "Book",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
