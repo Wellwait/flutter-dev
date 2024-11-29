@@ -222,6 +222,7 @@ class ApiService {
     final response = await http.get(Uri.parse('$BASE_URL/subcategories'));
 
     if (response.statusCode == 200) {
+      print("SubCategories response: ${response.body}");
       // Parse the response and map it to the model
       return allTestFromJson(response.body);
     } else {
@@ -406,21 +407,11 @@ class ApiService {
 
   Future<List<Booking>> fetchPastBooking() async {
     final Uri uri = Uri.parse('$BASE_URL/past_booking');
-    //     .replace(queryParameters: {
-    //   'scheduled_date': scheduledDate,
-    //   'service_provider_id': serviceProviderId.toString()
-    // });
-
-    // Make the GET request
     final response = await http.get(uri);
-
-    // Check if the request was successful
     if (response.statusCode == 200) {
-      // Parse the JSON response and map it to a list of Booking objects
       print(response.body);
       return bookingFromJson(response.body);
     } else {
-      // If the request fails, throw an exception with the error message
       throw Exception('Failed to load bookings: ${response.body}');
     }
   }
@@ -433,7 +424,6 @@ class ApiService {
     final response = await http.get(uri);
     print(response);
     if (response.statusCode == 200) {
-      // Parse the JSON response and map it to a list of Booking objects
       print(response.body);
       return bookingFromJson(response.body);
     } else {
@@ -497,5 +487,99 @@ class ApiService {
       throw Exception('Failed to update booking');
     }
   }
+
+  Future<bool> uploadServiceProviderImage(int serviceProviderId, String imageUrl) async {
+    final url = Uri.parse('$BASE_URL/service_provider_image');
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'service_provider_id': serviceProviderId,
+          'image_url': imageUrl,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print("Response: ${response.body}");
+        return true;
+      } else {
+        print("Error: ${response.body}");
+        return false;
+      }
+    } catch (error) {
+      print("Exception: $error");
+      return false;
+    }
+  }
+
+  Future<bool> uploadServiceProviderBanner(int serviceProviderId, String imageUrl) async {
+    final url = Uri.parse('$BASE_URL/service_provider_banner');
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'service_provider_id': serviceProviderId,
+          'image_url': imageUrl,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print("Response: ${response.body}");
+        return true;
+      } else {
+        print("Error: ${response.body}");
+        return false;
+      }
+    } catch (error) {
+      print("Exception: $error");
+      return false;
+    }
+  }
+
+  Future<bool> updateUserPhoto(String photo) async {
+    final url = Uri.parse('$BASE_URL/update_user_photo');
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'id': userId,
+          'photo': photo,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print("Response: ${response.body}");
+        return true;
+      } else {
+        print("Error: ${response.body}");
+        return false;
+      }
+    } catch (error) {
+      print("Exception: $error");
+      return false;
+    }
+  }
+
+  // Future<List<ServiceProviderImage>> fetchServiceProviderImages() async {
+  //   final url = Uri.parse('$BASE_URL/get_service_provider_images');
+  //   try {
+  //     final response = await http.get(url);
+  //
+  //     if (response.statusCode == 200) {
+  //       // Decode response body and map to list of ServiceProviderImage objects
+  //       final List<dynamic> data = json.decode(response.body);
+  //       return data.map((item) => ServiceProviderImage.fromJson(item)).toList();
+  //     } else {
+  //       throw Exception(
+  //         'Failed to fetch service provider images. Status code: ${response.statusCode}',
+  //       );
+  //     }
+  //   } catch (e) {
+  //     throw Exception('Failed to fetch service provider images: $e');
+  //   }
+  // }
 
 }

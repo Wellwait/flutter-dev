@@ -27,9 +27,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
       _viewModel.emailController.text = userEmail;
       _viewModel.selectedGender = userGender == 1 ? 'Male' : (userGender == 2 ? 'Female' : null);
       _viewModel.selectedDate = userBirthday;
+      // _viewModel.imageName = userProfileImage;
+      // print('User profile image: ${userProfileImage}');
       print('gender : ${userGender}');
       print('Birthday : ${userBirthday}');
-      _viewModel.refreshUI();
+      _viewModel.refreshUI(); //1732789791741
     });
   }
 
@@ -105,16 +107,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   top: 120,
                   left: (MediaQuery.of(context).size.width - 120) / 2, // Center horizontally
                   child: Stack(
-                    alignment: Alignment.center, // Center the icon within the stack
+                    alignment: Alignment.center,
                     children: [
                       Container(
                         width: 120,
                         height: 120,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          image: _viewModel.imageFile != null // Check if an image is selected
+                          image: _viewModel.selectedImage != null
                               ? DecorationImage(
-                            image: FileImage(_viewModel.imageFile!), // Display the selected image
+                            image: MemoryImage(_viewModel.selectedImage!),
                             fit: BoxFit.cover,
                           )
                               : const DecorationImage(
@@ -141,7 +143,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           ),
                           child: GestureDetector(
                             onTap: () {
-                              _viewModel.pickImageFromGallery();
+                              _viewModel.pickImage();
                             },
                             child: const Icon(
                               Icons.photo_camera,
@@ -210,17 +212,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         },
                       ),
                       const SizedBox(height: 16),
-                      const Text(
+                      Text(
                         "Birthday",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Outfit',
-                        ),
+                        style: AppTextStyle.getTextStyle18FontWeightBold,
                       ),
                       TextField(
-                        readOnly: true, // Prevent typing
-                        onTap: () => _selectDate(context), // Trigger date picker on tap
+                        readOnly: true,
+                        onTap: () => _selectDate(context),
                         decoration: InputDecoration(
                           hintText: _viewModel.selectedDate == null
                               ? "Select Date" // Placeholder text
@@ -236,13 +234,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         style: const TextStyle(color: Colors.black),
                       ),
                       const SizedBox(height: 16),
-                      const Text(
+                      Text(
                         "Gender",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Outfit',
-                        ),
+                        style: AppTextStyle.getTextStyle18FontWeightBold,
                       ),
                       DropdownButton<String>(
                         value: _viewModel.selectedGender,
@@ -285,7 +279,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 });
                               }
                             } else {
-                              // If the form fields are invalid, show a Snackbar with an error
                               CustomSnackBar.showSnackBar('Please fill in all fields correctly.');
                             }
                           },
@@ -310,7 +303,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     required String hintText,
     required TextEditingController controller,
     required String? Function(String?) validator,
-    int? maxLength, // Added maxLength as an optional parameter
+    int? maxLength,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -321,8 +314,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
         ),
         TextFormField(
           controller: controller,
-          maxLength: maxLength, // Assign maxLength here
-          validator: validator, // Validator to check the input
+          maxLength: maxLength,
+          validator: validator,
           decoration: InputDecoration(
             hintText: hintText,
             contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -330,7 +323,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey.shade300),
             ),
-            counterText: '', // Hides the default maxLength counter text
+            counterText: '',
           ),
         ),
       ],

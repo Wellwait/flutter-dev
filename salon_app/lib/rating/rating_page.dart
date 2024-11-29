@@ -6,14 +6,19 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
 import 'package:salon_app/Screens/payment/payment_screen.dart';
 import 'package:salon_app/utils/common_variables.dart';
+import '../queue/queue_viewmodel.dart';
 import '../utils/app_strings.dart';
 import '../utils/app_text_style.dart';
 import '../utils/colors.dart';
 import '../widget/custom_button.dart';
+import '../widget/snack_bar_widget.dart';
 import 'rating_page_viewmodel.dart';
 
 class RatingPage extends StatefulWidget {
-  const RatingPage({super.key});
+  int? bookingId;
+  double? bookingPrice;
+  int? serviceProviderId;
+  RatingPage({super.key,this.bookingId,this.bookingPrice,this.serviceProviderId});
 
   @override
   State<RatingPage> createState() => _RatingPageState();
@@ -21,12 +26,22 @@ class RatingPage extends StatefulWidget {
 
 class _RatingPageState extends State<RatingPage> {
   late RatingViewModel _viewModel;
-
+  late QueueViewModel _queueViewModel;
 
   @override
   Widget build(BuildContext context) {
     _viewModel = context.watch<RatingViewModel>();
+    _queueViewModel = context.watch<QueueViewModel>();
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back_ios_new,color: Colors.black,),
+        ),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -41,14 +56,15 @@ class _RatingPageState extends State<RatingPage> {
 
   Widget serviceDone() {
     return Padding(
-      padding: const EdgeInsets.only(top: 80), // Adds some top padding
-      child: Center(
+      padding: const EdgeInsets.only(top: 0), // Adds some top padding
+      child: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
               'assets/booked_image.svg',
-              height: 300,
-              width: 300,
+              height: 250,
+              width: 250,
             ),
             Text(
               AppString.serviceDone, // Use the string from AppString
@@ -113,7 +129,7 @@ class _RatingPageState extends State<RatingPage> {
                 style: AppTextStyle.getTextStyle14FontWeightw400,
               ),
               Text(
-                "200", // Use the string from AppString
+                widget.bookingPrice.toString(), // Use the string from AppString
                 style: AppTextStyle.getTextStyle14FontWeightw400,
               ),
             ],
@@ -145,7 +161,7 @@ class _RatingPageState extends State<RatingPage> {
                 style: AppTextStyle.getTextStyle16FontWeightw600,
               ),
               Text(
-                AppString.totalPriceValue, // Use the string from AppString
+                calculateTotalPrice().toString(), // Use the string from AppString
                 style: AppTextStyle.getTextStyle14FontWeightw600Black,
               ),
             ],
@@ -160,14 +176,12 @@ class _RatingPageState extends State<RatingPage> {
             child: CustomButtonWidget(
               text: AppString.proceedToPay, // Use the string from AppString
               onPressed: () async {
-                // Call the submitRating method before navigating
-                await _viewModel.submitRating(userId!,serviceProviderId); // Replace with actual user ID and service ID
-                Get.to(() => PaymentScreen());
-
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => const PaymentScreen()), // Navigate to the new page
-                // );
+                if (_viewModel.selectedStar == 0) {
+                  CustomSnackBar.showSnackBar("Please select a rating star!");
+                } else {
+                  await _viewModel.submitRating(userId!, widget.serviceProviderId!);
+                  Get.to(() => PaymentScreen());
+                }
               },
               buttonHeight: 40,
               borderRadius: 5,
@@ -177,6 +191,12 @@ class _RatingPageState extends State<RatingPage> {
         ],
       ),
     );
+  }
+
+// Calculate the total price including platform fees
+  calculateTotalPrice() {
+    int basePlatformFee = 50;
+    return basePlatformFee + widget.bookingPrice!.toDouble();
   }
 
 }

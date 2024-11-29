@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 
 import '../../models/booking.dart';
 import '../../services/services.dart';
@@ -9,6 +10,8 @@ class AdminQueueViewModel extends ChangeNotifier {
   bool isLoading = false;
   String? errorMessage;
   final ApiService apiService = ApiService();
+  String formattedDate = DateFormat('d MMM yyyy').format(DateTime.now());
+
 
   Future<void> fetchData(int serviceProviderId) async {
     isLoading = true;

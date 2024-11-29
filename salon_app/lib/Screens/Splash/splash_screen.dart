@@ -11,22 +11,6 @@ import '../../utils/common_variables.dart';
 import '../../utils/sp_helper.dart';
 import '../../widget/bottom_bar_widget.dart';
 
-// void main() {
-//   runApp(const SplashScreenApp());
-// }
-//
-// class SplashScreenApp extends StatelessWidget {
-//   const SplashScreenApp({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: SplashScreen(),
-//     );
-//   }
-// }
-
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -59,7 +43,6 @@ class _SplashScreenState extends State<SplashScreen>
     _startSequence();
   }
 
-  // Call autoLoginUser() after the animation sequence
   autoLoginUser() async {
     final SharedPreferenceService _sharedPreferenceService = SharedPreferenceService();
     int? userId = await _sharedPreferenceService.getUserId();
@@ -72,6 +55,9 @@ class _SplashScreenState extends State<SplashScreen>
       if (birthdayString != null && birthdayString.isNotEmpty) {
         try {
           userBirthday = DateTime.parse(birthdayString);
+          print('Splash Birthday date : ${userBirthday}');
+          print('Print Splash birthday date and birthdayString');
+          print('Splash birthdayString : ${birthdayString}');
         } catch (e) {
           print("Error parsing birthday: $e");
           userBirthday = null;
@@ -87,15 +73,13 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void _startSequence() async {
-    await _showElement(1); // Show Small Star
+    await _showElement(1);
     await _hideElement();
-    await _showElement(2); // Show Large Star
+    await _showElement(2);
     await _hideElement();
-    await _showElement(3); // Show Small Star Again
+    await _showElement(3);
     await _hideElement();
-    await _showElement(4); // Show WellWait Text with Star
-
-    // Call autoLoginUser after the animation sequence is complete
+    await _showElement(4);
     await autoLoginUser();
   }
 

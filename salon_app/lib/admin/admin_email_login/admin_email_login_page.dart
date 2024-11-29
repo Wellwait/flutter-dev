@@ -146,20 +146,11 @@ class _AdminEmailLoginPageState extends State<AdminEmailLoginPage> {
                             ),
                           ),
                           const SizedBox(height: 6),
-
-                          // Sign Up Link
                           Align(
                             alignment: Alignment.topRight,
                             child: TextButton(
                               onPressed: () {
                                 Get.to(() => AdminRegisterPage());
-
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => AdminRegisterPage(),
-                                //   ),
-                                // );
                               },
                               child: Text(
                                 AppString.signUp,
@@ -167,8 +158,6 @@ class _AdminEmailLoginPageState extends State<AdminEmailLoginPage> {
                               ),
                             ),
                           ),
-
-                          // Divider for 'OR'
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

@@ -71,6 +71,18 @@ class HomeScreenViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Future<void> fetchServiceProviderImageData() async {
+  //   isLoading = true;
+  //   notifyListeners();
+  //   try {
+  //     serviceProviderImage = await apiService.fetchServiceProviderImages();
+  //   } catch (e) {
+  //     print("Error fetching salon service provider image: $e");
+  //   }
+  //   isLoading = false;
+  //   notifyListeners();
+  // }
+
   Future<void> increaseViewCount(int service_provider_id) async {
     try {
       await apiService.increaseViewCount(service_provider_id);
@@ -83,16 +95,16 @@ class HomeScreenViewModel extends ChangeNotifier {
   Future<void> fetchFavorite() async {
     isLoading = true;
     notifyListeners();
-    try {
+    //try {
       favoriteService = await apiService.getMyFavorite();
       favoriteList = [];
       for(var service in favoriteService) {
         favoriteList.add(service.serviceProviderId);
       }
       print(favoriteService);
-    } catch (e) {
-      print("Error fetching subcategories: $e");
-    }
+    // } catch (e) {
+    //   print("Error fetching subcategories: $e");
+    // }
     isLoading = false;
     notifyListeners();
   }

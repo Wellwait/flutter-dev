@@ -28,6 +28,7 @@ import '../service_provider_details/service_provider_detail_page.dart';
 import '../settings/settings_page.dart';
 import '../utils/app_strings.dart';
 import '../utils/colors.dart';
+import '../utils/constants.dart';
 import '../utils/sp_helper.dart';
 import '../widget/custom_button.dart';
 import 'home_screen_viewmodel.dart';
@@ -150,9 +151,17 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildCategoryButton(AppString.women),
-                  _buildCategoryButton(AppString.men),
-                  _buildCategoryButton(AppString.kids),
+                  Expanded(
+                    child: _buildCategoryButton(AppString.women),
+                  ),
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: _buildCategoryButton(AppString.men),
+                  ),
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: _buildCategoryButton(AppString.kids),
+                  ),
                 ],
               ),
             ),
@@ -194,25 +203,26 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
                 scrollDirection: Axis.horizontal,
                 itemCount: _viewModel.serviceProvider.length,
                 itemBuilder: (context, index) {
-                  final salonService = _viewModel.serviceProvider[index];
+                  final salonServiceProvider = _viewModel.serviceProvider[index];
                   //print('mobileNumber: ${mobileNumber}');
                   // Safely get the first image from promoImages if available
-                  final List<String> promoImages = (salonService.promoImages ?? '')
+                  final List<String> promoImages = (salonServiceProvider.imageUrl ?? '')
                       .split(',')
                       .map((s) => s.trim())
                       .toList();
                   // Use the first promo image if available; otherwise, use a dummy image
                   final String salonServiceImage = (promoImages.isNotEmpty && promoImages[0].isNotEmpty)
-                      ? promoImages[0]
-                      : dummyimage; // Default image if promoImages is empty
-                  // Use null-aware operators for accessing properties safely
-                  final String serviceProviderName = salonService.salonName ?? 'Unknown Type';
-                  final String salonServiceAddress = salonService.address ?? 'Unknown Location';
+                      ? '$BASE_URL/uploads/${promoImages[0]}'
+                      : dummyimage; // Default image if promoImages
+                  //print('print upload image : $BASE_URL/uploads/${promoImages[0]}');
+
+                  final String serviceProviderName = salonServiceProvider.salonName ?? 'Unknown Type';
+                  final String salonServiceAddress = salonServiceProvider.address ?? 'Unknown Location';
                   // Check if the service is already in favorites
-                  bool isFavorite = favoriteList.contains(salonService.id);
+                  bool isFavorite = favoriteList.contains(salonServiceProvider.id);
                   // Display logic for service names
                   String displayServiceNames() {
-                    final serviceNamesList = (salonService.serviceNames ?? '')
+                    final serviceNamesList = (salonServiceProvider.serviceNames ?? '')
                         .split(',')
                         .map((s) => s.trim())
                         .toList();
@@ -228,19 +238,19 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
                     padding: const EdgeInsets.only(left: 16.0),
                     child: InkWell(
                       onTap: () async {
-                        serviceProviderId = salonService.id!;
+                        serviceProviderId = salonServiceProvider.id!;
                         await _viewModel.increaseViewCount(serviceProviderId);
-                        mobileNumber = salonService.mobileNumber.toString();
-                        print(salonService.mobileNumber);
-                        print(salonService.id!);
+                        mobileNumber = salonServiceProvider.mobileNumber.toString();
+                        print(salonServiceProvider.mobileNumber);
+                        print(salonServiceProvider.id!);
                         // Navigate to the next page
                         Get.to(() => ServiceProviderDetailPage(
                           userName: serviceProviderName,
                           address: salonServiceAddress,
                           imagePath: salonServiceImage,
-                          viewCount: salonService.viewCount!,
-                          averageRating: salonService.averageRating!.toDouble(),
-                          totalRatings: salonService.totalRatings!,
+                          viewCount: salonServiceProvider.viewCount!,
+                          averageRating: salonServiceProvider.averageRating!.toDouble(),
+                          totalRatings: salonServiceProvider.totalRatings!,
                         ));
 
                         // Navigator.push(
@@ -278,15 +288,17 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(8),
                                         image: DecorationImage(
-                                            image: imageProvider,
-                                            fit: BoxFit.cover,
-                                            colorFilter:
-                                            const ColorFilter.mode(Colors.transparent, BlendMode.colorBurn)),
+                                          image: imageProvider,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                     placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                                    errorWidget: (context, url, error) => const Icon(Icons.error),
-                                  )
+                                    errorWidget: (context, url, error) {
+                                      //print('Error loading image: $url');
+                                      return const Icon(Icons.error);
+                                    },
+                                  ),
                                 ),
                                 Positioned(
                                   top: 8.0,
@@ -297,10 +309,10 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
                                         if (isFavorite) {
                                           // Remove from favorites
                                           _viewModel.favoriteService.removeWhere(
-                                                  (service) => service.photo == salonServiceImage
+                                                  (service) => service.image_url == salonServiceImage
                                           );
                                         } else {
-                                          _viewModel.addFavorite(salonService.id);
+                                          _viewModel.addFavorite(salonServiceProvider.id);
                                         }
                                       });
                                     },
@@ -342,6 +354,9 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
                                 Text(
                                   salonServiceAddress,
                                   style: AppTextStyle.getTextStyle17FontWeightw400,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
                                 ),
                               ],
                             ),
@@ -355,7 +370,7 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
                                 ),
                                 const SizedBox(width: 4.0),
                                 Text(
-                                  '${salonService.averageRating!.toDouble()} (${salonService.totalRatings}) Rating',
+                                  '${salonServiceProvider.averageRating!.toDouble()} (${salonServiceProvider.totalRatings}) Rating',
                                   style: AppTextStyle.getTextStyle15FontWeightw500,
                                 ),
                               ],
@@ -465,18 +480,18 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
                     children: List.generate(
                         _viewModel.serviceProvider.length, (index) {
                       //final service = _viewModel.services[index];
-                      final salonService = _viewModel.serviceProvider[index];
-                      final List<String> promoImages = (salonService.promoImages ?? '')
+                      final salonServiceProvider = _viewModel.serviceProvider[index];
+                      final List<String> promoImages = (salonServiceProvider.imageUrl ?? '')
                           .split(',')
                           .map((s) => s.trim())
                           .toList();
                       // Use the first promo image if available; otherwise, use a dummy image
-                      final String salonServiceImage = (promoImages.isNotEmpty && promoImages[0].isNotEmpty)
-                          ? promoImages[0]
+                      final String salonServiceProviderImage = (promoImages.isNotEmpty && promoImages[0].isNotEmpty)
+                          ? '$BASE_URL/uploads/${promoImages[0]}'
                           : dummyimage;
 
                       String displayServiceNames() {
-                        final serviceNamesList = (salonService.serviceNames ?? '')
+                        final serviceNamesList = (salonServiceProvider.serviceNames ?? '')
                             .split(',')
                             .map((s) => s.trim())
                             .toList();
@@ -489,30 +504,30 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
                         return '${serviceNamesList.take(2).join(', ')} +${serviceNamesList.length - 2}';
                       }
                       return bottomCard(
-                        salonService.id!,
-                        salonServiceImage, // Fallback image
+                        salonServiceProvider.id!,
+                        salonServiceProviderImage, // Fallback image
                         displayServiceNames() ?? 'Unknown Service',
-                        salonService.salonName ?? 'Unknown Salon',
+                        salonServiceProvider.salonName ?? 'Unknown Salon',
                         // service.rating?.toString() ?? 'No Rating',
-                        salonService.address ?? 'Unknown Address',
+                        salonServiceProvider.address ?? 'Unknown Address',
                         // service.id!,
                         // service.viewCount!,
-                        salonService.averageRating!.toDouble(),
-                        salonService.totalRatings!,
+                        salonServiceProvider.averageRating!.toDouble(),
+                        salonServiceProvider.totalRatings!,
                         _viewModel,
                         context,
                             () async {
                           // This is where you handle the navigation
                               //serviceProviderId = service.serviceProviderId!;
-                              serviceProviderId = salonService.id!;
+                              serviceProviderId = salonServiceProvider.id!;
                           await _viewModel.increaseViewCount(serviceProviderId); // Use service.id instead
                               Get.to(() => ServiceProviderDetailPage(
-                                userName: salonService.salonName ?? 'Unknown Salon',
-                                address: salonService.address ?? 'Unknown Address',
-                                imagePath: salonServiceImage ,
-                                viewCount: salonService.viewCount!,
-                                averageRating: salonService.averageRating!.toDouble(),
-                                totalRatings: salonService.totalRatings,
+                                userName: salonServiceProvider.salonName ?? 'Unknown Salon',
+                                address: salonServiceProvider.address ?? 'Unknown Address',
+                                imagePath: salonServiceProviderImage ,
+                                viewCount: salonServiceProvider.viewCount!,
+                                averageRating: salonServiceProvider.averageRating!.toDouble(),
+                                totalRatings: salonServiceProvider.totalRatings,
                               ));
 
                           //     Navigator.push(
@@ -545,73 +560,73 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 16), // Add some space before the search box
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Container(
-              width: 361, // Width of the search box
-              height: 45.97, // Height of the search box
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black
-                        .withOpacity(0.1), // Shadow color with slight opacity
-                    blurRadius: 5,
-                    offset: const Offset(0, 2), // Offset of the shadow
-                  ),
-                ],
-              ),
-              child: Row(
-                mainAxisAlignment:
-                MainAxisAlignment.spaceBetween, // Spacing between elements
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 16.0),
-                    child: Icon(Icons.search, color: Color(0xFF009688)),
-                  ),
-                  Expanded(
-                    child: TextField(
-                      onTap: () {
-                        Get.to(() => SearchPage());
-                      },
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: AppString.search,
-                        contentPadding: EdgeInsets.zero,
-                        hintStyle: GoogleFonts.outfit(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: const Color(0x87505050),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        //Get.to(() => FilterScreen());
-                      },
-                      child: SvgPicture.asset(
-                        'assets/icons/filter.svg', // Original image path
-                        width: 17.5, // Width set to 17.5px
-                        height: 11.5, // Height set to 11.5px
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+        // const SizedBox(height: 16), // Add some space before the search box
+        // Center(
+        //   child: Padding(
+        //     padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        //     child: Container(
+        //       width: 361, // Width of the search box
+        //       height: 45.97, // Height of the search box
+        //       decoration: BoxDecoration(
+        //         color: Colors.white,
+        //         borderRadius: BorderRadius.circular(12),
+        //         boxShadow: [
+        //           BoxShadow(
+        //             color: Colors.black
+        //                 .withOpacity(0.1), // Shadow color with slight opacity
+        //             blurRadius: 5,
+        //             offset: const Offset(0, 2), // Offset of the shadow
+        //           ),
+        //         ],
+        //       ),
+        //       child: Row(
+        //         mainAxisAlignment:
+        //         MainAxisAlignment.spaceBetween, // Spacing between elements
+        //         children: [
+        //           const Padding(
+        //             padding: EdgeInsets.only(left: 16.0),
+        //             child: Icon(Icons.search, color: Color(0xFF009688)),
+        //           ),
+        //           Expanded(
+        //             child: TextField(
+        //               onTap: () {
+        //                 Get.to(() => SearchPage());
+        //               },
+        //               decoration: InputDecoration(
+        //                 border: InputBorder.none,
+        //                 hintText: AppString.search,
+        //                 contentPadding: EdgeInsets.zero,
+        //                 hintStyle: GoogleFonts.outfit(
+        //                   fontSize: 16,
+        //                   fontWeight: FontWeight.w400,
+        //                   color: const Color(0x87505050),
+        //                 ),
+        //               ),
+        //             ),
+        //           ),
+        //           Padding(
+        //             padding: const EdgeInsets.only(right: 16.0),
+        //             child: GestureDetector(
+        //               onTap: () {
+        //                 //Get.to(() => FilterScreen());
+        //               },
+        //               child: SvgPicture.asset(
+        //                 'assets/icons/filter.svg', // Original image path
+        //                 width: 17.5, // Width set to 17.5px
+        //                 height: 11.5, // Height set to 11.5px
+        //               ),
+        //             ),
+        //           ),
+        //         ],
+        //       ),
+        //     ),
+        //   ),
+        // ),
         const SizedBox(height: 16),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Container(
-            width: 361, // Width set to 361
+            width: double.infinity, // Width set to 361
             height: 159, // Height set to 159
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
@@ -622,7 +637,7 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
                 Positioned.fill(
                   child: SvgPicture.asset(
                     'assets/icons/Shop.svg', // Original image path
-                    fit: BoxFit.cover, // Fit image to cover the container
+                    //fit: BoxFit.cover, // Fit image to cover the container
                   ),
                 ),
                 Positioned(
@@ -687,7 +702,7 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
     }
 
     return Wrap(
-      spacing: 35.0, // Horizontal spacing between items
+      spacing: 30.0, // Horizontal spacing between items
       runSpacing: 30.0, // Vertical spacing between rows
       children: services.map((service) {
         return Column(

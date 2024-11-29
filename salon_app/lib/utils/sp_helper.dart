@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:intl/intl.dart';
 import 'package:salon_app/utils/common_variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -151,12 +154,20 @@ class SharedPreferenceService {
     return prefs.getInt(_userIdKey);
   }
 
+
+  // Future<void> saveUserProfileImage(Uint8List imageBytes) async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String base64Image = base64Encode(imageBytes); // Convert image bytes to base64 string
+  //   await prefs.setString(_userProfileImageKey, base64Image);
+  // }
+
   Future<void> saveUserInfo() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(_usernameKey, userName);
     await prefs.setString(_userPhoneNumberKey, userPhoneNumber!);
-    await prefs.setString(_userBirthDateKey, userBirthday.toString());
+    await prefs.setString(_userBirthDateKey, userBirthday?.toIso8601String() ?? '');
     await prefs.setInt(_userGenderKey, userGender!);
+    await prefs.setString(_userEmailKey, userEmail);
   }
 
 }

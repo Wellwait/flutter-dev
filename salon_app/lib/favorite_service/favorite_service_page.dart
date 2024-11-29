@@ -1,7 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:salon_app/utils/colors.dart';
+import '../dummydata.dart';
 import '../home_screen/home_screen_viewmodel.dart';
 import '../utils/app_text_style.dart';
+import '../utils/constants.dart';
 
 class FavoriteServicesPage extends StatefulWidget {
   @override
@@ -60,18 +64,33 @@ class _FavoriteServicesPageState extends State<FavoriteServicesPage> {
         itemCount: _homeScreenViewModel.favoriteService.length,
         itemBuilder: (context, index) {
           final service = _homeScreenViewModel.favoriteService[index];
+          final serviceProvider = _homeScreenViewModel.serviceProvider[index];
+
+          final List<String> promoImages = (service.image_url ?? '')
+              .split(',')
+              .map((s) => s.trim())
+              .toList();
+          // Use the first promo image if available; otherwise, use a dummy image
+          final String salonServiceImage = (promoImages.isNotEmpty && promoImages[0].isNotEmpty)
+              ? '$BASE_URL/uploads/${promoImages[0]}'
+              : dummyimage;
+          // print("favortie imasge name : ${service.image_url}");
+          // print("favorite uploaded image : $BASE_URL/uploads/${promoImages[0]}");
+          // print("${serviceProvider.averageRating!.toDouble()} (${serviceProvider.totalRatings}) Rating");
           return bottomCard(
-            service.photo ?? "",
+            salonServiceImage,
             service.salonName ?? "",
             service.address ?? "",
-            service.averageRating
+            "${serviceProvider.averageRating!.toDouble()} (${serviceProvider.totalRatings}) Rating"
           );
         },
       ),
     );
   }
 
-  Widget bottomCard(String imagePath,String name, String address, String rating) {
+  Widget bottomCard(String imagePath, String name, String address, String rating) {
+    //double parsedRating = double.tryParse(rating) ?? 0.0;
+
     return Card(
       elevation: 5,
       shadowColor: Colors.black.withOpacity(0.9),
@@ -80,19 +99,52 @@ class _FavoriteServicesPageState extends State<FavoriteServicesPage> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 100,
-            width: 130,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(imagePath),
-                fit: BoxFit.cover,
+          // Use CachedNetworkImage instead of NetworkImage
+          Stack(
+            children: [
+              Container(
+                height: 100,
+                width: 130,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    bottomLeft: Radius.circular(12),
+                  ),
+                  image: DecorationImage(
+                    image: CachedNetworkImageProvider(imagePath),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: imagePath, // URL of the image
+                  imageBuilder: (context, imageProvider) => Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
               ),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(12),
-                bottomLeft: Radius.circular(12),
+              Positioned(
+                top: 6.0,
+                left: 10.0,
+                child: Container(
+                   decoration: const BoxDecoration(
+                     color: Colors.white,
+                     shape: BoxShape.circle,
+                   ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(4),
+                    child: Icon(Icons.favorite,color: fabricColor,),
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
           Expanded(
             child: Column(
@@ -103,11 +155,6 @@ class _FavoriteServicesPageState extends State<FavoriteServicesPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Text(
-                      //   title,
-                      //   style: AppTextStyle.getTextStyle13FontWeightw300,
-                      // ),
-                      const SizedBox(height: 6),
                       Text(
                         name,
                         style: AppTextStyle.getTextStyle18FontWeightBold,
@@ -115,6 +162,9 @@ class _FavoriteServicesPageState extends State<FavoriteServicesPage> {
                       Text(
                         address,
                         style: AppTextStyle.getTextStyle14FontWeightw500,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
                       ),
                       const SizedBox(height: 12),
                       Row(
@@ -126,8 +176,10 @@ class _FavoriteServicesPageState extends State<FavoriteServicesPage> {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            ((double.parse(rating) * 10).round() / 10).toString(),
-                            style: AppTextStyle.getTextStyle14FontWeightw500,
+                            rating,
+                            style: AppTextStyle.getTextStyle14FontWeight,
+
+                            //AppTextStyle.getTextStyle14FontWeightw500,
                           ),
                         ],
                       ),
@@ -141,4 +193,5 @@ class _FavoriteServicesPageState extends State<FavoriteServicesPage> {
       ),
     );
   }
+
 }

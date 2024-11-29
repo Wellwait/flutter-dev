@@ -59,7 +59,7 @@ class _AdminQueuePageState extends State<AdminQueuePage> {
           width: 20,
         ),
         title: Center(
-            child: Text(AppString.appTitle,
+            child: Text(_viewModel.formattedDate,
                 style: AppTextStyle.getTextStyle18FontWeightBold)
         ),
         actions: [
@@ -118,7 +118,7 @@ class _AdminQueuePageState extends State<AdminQueuePage> {
                                       Row(
                                         children: [
                                           SvgPicture.asset(
-                                              'assets/google.svg'),
+                                              'assets/profile_image.png',height: 50,width: 50),
                                           const SizedBox(width: 20),
                                           RichText(
                                             text: TextSpan(
@@ -327,7 +327,7 @@ class _AdminQueuePageState extends State<AdminQueuePage> {
     List<Widget> widgets = [];
     // Selected services
     //_sPDetailViewModel.selectedServices.map((service) => divider(service)),
-    widgets.add(SizedBox(height: 10));
+    widgets.add(const SizedBox(height: 10));
     for (int i = 0; i < _viewModel.bookings.length; i++) {
       var booking = _viewModel.bookings[i];
       if (booking.panelId == panelId) {
@@ -357,9 +357,9 @@ class _AdminQueuePageState extends State<AdminQueuePage> {
                     color: Colors.white,
                     padding: const EdgeInsets.all(5),
                     child: SvgPicture.asset(
-                      'assets/google.svg',
-                      height: 24,
-                      width: 24,
+                      'assets/admin_icon.png',
+                      height: 35,
+                      width: 35,
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -378,28 +378,8 @@ class _AdminQueuePageState extends State<AdminQueuePage> {
                     ],
                   ),
                 ),
-                trailing: booking.status == 2
-                    ? Container(
-                  height: 20,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff2158FF),
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 1,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(2),
-                    child: Center(
-                      child: Text(
-                        AppString.onGoing,
-                        style: AppTextStyle.getTextStyle10FontWeightw300,
-                      ),
-                    ),
-                  ),
-                )
+                trailing: booking.status == 3
+                    ? const Text('Completed',style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Outfit',fontSize: 18),)
                     : SizedBox(
                   width: 150, // Constrain the width to ensure proper layout
                   child: Row(
@@ -407,19 +387,21 @@ class _AdminQueuePageState extends State<AdminQueuePage> {
                       Flexible(
                         child: GestureDetector(
                           onTap: () {
-                            _viewModel.updateBookingStarted(booking.id!);
+                            if (booking.status != 2) {
+                              _viewModel.updateBookingStarted(booking.id!);
+                            }
                           },
                           child: Container(
                             height: 40,
                             decoration: BoxDecoration(
-                              color: _viewModel.bookingStartStatus[booking.id] == true
-                                  ? Colors.grey // Change color to grey if the booking is started
+                              color: booking.status == 2
+                                  ? Colors.grey[200] // Change color to grey if the booking is started
                                   : fabricColor, // Default color
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(
-                                color: _viewModel.bookingStartStatus[booking.id] == true
-                                ? Colors.grey
-                                : Colors.black87,
+                                color:  booking.status == 2
+                                    ? Colors.grey
+                                    : Colors.black87,
                                 width: 1,
                               ),
                             ),
@@ -427,11 +409,11 @@ class _AdminQueuePageState extends State<AdminQueuePage> {
                               padding: const EdgeInsets.all(5),
                               child: Center(
                                 child: Text(
-                                  _viewModel.bookingStartStatus[booking.id] == true
+                                  booking.status == 2
                                       ? 'Started' // Change text to "Started" if the booking has started
                                       : 'Start', // Default text
                                   style: TextStyle(
-                                    color: _viewModel.bookingStartStatus[booking.id] == true
+                                    color:  booking.status == 2
                                         ? Colors.black
                                         : Colors.white,
                                   ),
@@ -441,24 +423,27 @@ class _AdminQueuePageState extends State<AdminQueuePage> {
                           ),
                         ),
                       ),
-
-                      const SizedBox(width: 5), // Add spacing between buttons
+                      const SizedBox(width: 5),
                       Flexible(
                         child: GestureDetector(
-                          onTap: () {
-                            _viewModel.updateBookingFinished(booking.id!);
+                          onTap: () async {
+                            if(booking.status != 3) {
+                              await _viewModel.updateBookingFinished(booking.id!);
+                              _viewModel.fetchData(_adminEmailLoginViewModel.serviceProviderId!);
+                            }
                           },
                           child: Container(
                             height: 40,
                             decoration: BoxDecoration(
-                              color: _viewModel.bookingFinishedStatus[booking.id] == true
-                                ? Colors.grey[200]
-                              : Colors.green,
+                              color: booking.status == 3
+                                  ? Colors.grey[200]
+                                  : Colors.green,
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(
-                                color: _viewModel.bookingFinishedStatus[booking.id] == true
-                                ? Colors.grey
-                                : Colors.black87,
+                                //color: _viewModel.bookingFinishedStatus[booking.id] == true
+                                color: booking.status == 3
+                                    ? Colors.grey
+                                    : Colors.black87,
                                 width: 1,
                               ),
                             ),
@@ -466,15 +451,15 @@ class _AdminQueuePageState extends State<AdminQueuePage> {
                               padding: const EdgeInsets.all(5),
                               child: Center(
                                 child: Text(
-                                  _viewModel.bookingFinishedStatus[booking.id] == true
-                                  ? "Completed"
-                                  : "Complete",
+                                  booking.status == 3
+                                      ? "Completed"
+                                      : "Complete",
                                   style: TextStyle(
-                                    color: _viewModel.bookingFinishedStatus[booking.id] == true
-                                        ? Colors.black
-                                        : Colors.white,
-                                    fontWeight: FontWeight.w300,
-                                    fontFamily: 'Outfit'
+                                      color: booking.status == 3
+                                          ? Colors.black
+                                          : Colors.white,
+                                      fontWeight: FontWeight.w300,
+                                      fontFamily: 'Outfit'
                                   ),
                                 ),
                               ),

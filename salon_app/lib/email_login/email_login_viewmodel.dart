@@ -35,7 +35,6 @@ class EmailLoginViewModel extends ChangeNotifier {
     final String password = passwordController.text;
 
     try {
-      // Call the login method in ApiService
       final responseBody = await _apiService.loginUser(email, password);
 
       userId = responseBody['userId'];
@@ -45,10 +44,12 @@ class EmailLoginViewModel extends ChangeNotifier {
 
       // Parse birthday if it exists and is valid
       final birthdayString = responseBody['birthday'];
-      print("birthdayString ${birthdayString}");
+      print("Login birthdayString : ${birthdayString}");
       if (birthdayString != null && birthdayString.isNotEmpty) {
         try {
           userBirthday = DateTime.parse(birthdayString);
+          print('Login Birthday date : ${userBirthday}');
+          print('birthdayString : ${birthdayString}');
         } catch (e) {
           print("Error parsing birthday: $e");
           userBirthday = null;
@@ -71,7 +72,6 @@ class EmailLoginViewModel extends ChangeNotifier {
       await _sharedPreferenceService.saveUserEmail(userEmail);
       await _sharedPreferenceService.saveUserBirthday(userBirthday?.toIso8601String() ?? '');
       await _sharedPreferenceService.saveUserGender(userGender);
-      await _sharedPreferenceService.saveUserInfo();
 
       showProgressbar = false;
       refreshUI();

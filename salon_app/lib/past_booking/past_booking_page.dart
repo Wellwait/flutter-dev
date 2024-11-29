@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salon_app/past_booking/past_booking_viewmodel.dart';
-
 import '../utils/app_strings.dart';
 import '../utils/app_text_style.dart';
 
@@ -21,7 +20,6 @@ class _PastBookingPageState extends State<PastBookingPage> {
     super.initState();
     // Use addPostFrameCallback to avoid calling during build
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // Fetch data methods
       print("api call");
       _viewModel.fetchData();
     });
@@ -103,6 +101,9 @@ class _PastBookingPageState extends State<PastBookingPage> {
                               Text(
                                 booking.address.toString(),
                                 style: AppTextStyle.getTextStyle13FontWeightw400G,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: false,
                               ),
                               const SizedBox(height: 3),
                               Row(
@@ -143,60 +144,11 @@ class _PastBookingPageState extends State<PastBookingPage> {
                                       ],
                                     ),
                                   ),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(right: 20),
-                                  //   child: Text(
-                                  //     'price: ${booking.price.toString()}',
-                                  //     style: AppTextStyle.getTextStyle14FontWeight,
-                                  //   ),
-                                  // ),
                                 ],
                               ),
                             ],
                           ),
                         ),
-                        // const SizedBox(height: 10),
-                        // Padding(
-                        //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //     children: [
-                        //       Container(
-                        //         height: 40,
-                        //         margin: const EdgeInsets.only(bottom: 10),
-                        //         decoration: BoxDecoration(
-                        //           borderRadius: BorderRadius.circular(12),
-                        //           color: const Color(0xffE6F4F4),
-                        //         ),
-                        //         child: IconButton(
-                        //           icon: const Icon(Icons.navigation_sharp,color: Colors.grey,),
-                        //           onPressed: () {
-                        //             // Toggle favorite status
-                        //             // Notify changes
-                        //           },
-                        //         ),
-                        //       ),
-                        //       const SizedBox(width: 25),
-                        //       Expanded(
-                        //         child: Container(
-                        //           margin: const EdgeInsets.only(bottom: 6),
-                        //           child: CustomButtonWidget(
-                        //             text: AppString.payment,
-                        //             textColor: Colors.grey,
-                        //             onPressed: () async {
-                        //               // Call the passed onPressed function
-                        //               // onPressed(); // Execute the onPressed callback
-                        //             },
-                        //             buttonColor: Colors.white,
-                        //             borderColor: Colors.grey,
-                        //             borderRadius: 5,
-                        //             buttonHeight: 40,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),

@@ -12,7 +12,6 @@ import 'package:salon_app/schedule/schedule_viewmodel.dart';
 import 'package:salon_app/settings/settings_viewmodel.dart';
 import 'package:salon_app/utils/sp_helper.dart';
 import 'package:salon_app/widget/bottom_bar_widget.dart';
-
 import 'Screens/Filter/filter_screen.dart';
 import 'Screens/Profile/profile_screen.dart';
 import 'Screens/Splash/splash_screen.dart';
@@ -21,7 +20,6 @@ import 'Screens/auth/login_screen.dart';
 import 'Screens/auth/verification_screen.dart';
 import 'Screens/booking2/booking_screen2.dart';
 import 'Screens/booking2/booking_screen2_viewmodel.dart';
-import 'Screens/home/home_screen.dart';
 import 'Screens/notification/notification_screen.dart';
 import 'Screens/notification/notification_viewmodel.dart';
 import 'Screens/payment/payment_screen.dart';
@@ -108,6 +106,8 @@ class MyApp extends StatelessWidget {
           ),
           getPages: [
             GetPage(name: '/', page: () => SplashScreen()),
+            //GetPage(name: '/', page: () => AdminEmailLoginPage()),
+
           ],
         ),
         //initialPage, // Use the determined initial page

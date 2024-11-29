@@ -55,56 +55,87 @@ class _BookingScreen2TopState extends State<BookingScreen2Top> {
     uniqueIds = [];
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.arrow_back_ios_new,color: Colors.black,),
-        ),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.white,
+      //   leading: IconButton(
+      //     onPressed: () {
+      //       Navigator.pop(context);
+      //     },
+      //     icon: const Icon(Icons.arrow_back_ios_new,color: Colors.black,),
+      //   ),
+      // ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.only(right: 16,left: 16,bottom: 16),
+        padding: const EdgeInsets.only(right: 16,left: 16,bottom: 16,top: 12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: CachedNetworkImage(
-                height: 150,
-                fit: BoxFit.cover,
-                imageUrl: widget.imagePath,
-                imageBuilder: (context, imageProvider) => Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.cover,
-                        colorFilter:
-                        const ColorFilter.mode(Colors.transparent, BlendMode.colorBurn)),
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: CachedNetworkImage(
+                    height: 150,
+                    fit: BoxFit.cover,
+                    imageUrl: widget.imagePath,
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                            colorFilter:
+                            const ColorFilter.mode(Colors.transparent, BlendMode.colorBurn)),
+                      ),
+                    ),
+                    placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
                   ),
                 ),
-                placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-              ),
+                Positioned(
+                  left: 16,
+                  top: 50,
+                  child: Container(
+                    height: 60,
+                    width: 60,
+                    decoration: const BoxDecoration(
+                        color: Colors.white38,
+                        shape: BoxShape.circle
+                    ),
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black,size: 30,),
+                      onPressed: () {
+                        // if(_viewModel.selectedServices.length > 0 ) {
+                        //   CustomSnackBar.showSnackBar("All the selected services will be removed");
+                        //   _viewModel.selectedServices.clear();
+                        // }
+                        Navigator.pop(context); // Navigate back when pressed
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.salonName,
-                      style: AppTextStyle.getTextStyle22FontWeightw600,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      widget.address,
-                      style: AppTextStyle.getTextStyle16FontWeightw300,
-                    ),
-                  ],
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.salonName,
+                        style: AppTextStyle.getTextStyle22FontWeightw600,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        widget.address,
+                        style: AppTextStyle.getTextStyle16FontWeightw300,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                      ),
+                    ],
+                  ),
                 ),
                 Row(
                   children: [

@@ -4,15 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
-import 'package:salon_app/utils/common_variables.dart';
-
-import '../Screens/notification/notification_screen.dart';
+import 'package:salon_app/utils/colors.dart';
 import '../email_login/email_login_viewmodel.dart';
 import '../queue/queue_page.dart';
 import '../utils/app_strings.dart';
 import '../utils/app_text_style.dart';
-import '../utils/colors.dart';
-import '../widget/custom_button.dart';
 import 'booking_pending_viewmodel.dart';
 
 class BookingPendingPage extends StatefulWidget {
@@ -60,7 +56,12 @@ class _BookingPendingPageState extends State<BookingPendingPage> {
           ),
         ],
       ),
-      body: ListView.builder(
+      body: _viewModel.isLoading
+        ?  const Center(
+        child: CircularProgressIndicator(),
+      ) : _viewModel.bookings.isEmpty
+        ? const Center(child: Text("No booking available",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 20,fontFamily: 'Outfit',color: fabricColor),))
+      : ListView.builder(
         itemCount: _viewModel.bookings.length,
           itemBuilder: (context, index) {
             final booking = _viewModel.bookings[index];
@@ -122,6 +123,9 @@ class _BookingPendingPageState extends State<BookingPendingPage> {
                                  Text(
                                   booking.address.toString(),
                                   style: AppTextStyle.getTextStyle13FontWeightw400G,
+                                   maxLines: 1,
+                                   overflow: TextOverflow.ellipsis,
+                                   softWrap: false,
                                 ),
                                 const SizedBox(height: 3),
                                 Row(
@@ -160,13 +164,6 @@ class _BookingPendingPageState extends State<BookingPendingPage> {
                                         ],
                                       ),
                                     ),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.only(right: 20),
-                                    //   child: Text(
-                                    //     'price: ${booking.price.toString()}',
-                                    //     style: AppTextStyle.getTextStyle14FontWeight,
-                                    //   ),
-                                    // ),
                                   ],
                                 ),
                               ],

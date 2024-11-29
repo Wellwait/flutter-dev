@@ -7,14 +7,11 @@ import 'package:salon_app/queue/queue_viewmodel.dart';
 import 'package:salon_app/utils/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../booking_pending/booking_pending_viewmodel.dart';
-import '../email_login/email_login_page.dart';
-import '../home_screen/home_screen_viewmodel.dart';
 import '../models/panel.dart';
 import '../rating/rating_page.dart';
 import '../service_provider_details/sp_detail_viewmodel.dart';
 import '../utils/app_strings.dart';
 import '../utils/app_text_style.dart';
-import '../utils/common_variables.dart';
 import '../widget/custom_button.dart';
 import '../widget/snack_bar_widget.dart';
 
@@ -67,15 +64,15 @@ class _QueuePageState extends State<QueuePage> {
             child: Text(_viewModel.formattedDate,
                 style: AppTextStyle.getTextStyle18FontWeightBold)
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 15),
-            child: Text(
-              AppString.help,
-              style: AppTextStyle.getTextStyleFontWeightw600G,
-            ),
-          ),
-        ],
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.only(right: 15),
+        //     child: Text(
+        //       AppString.help,
+        //       style: AppTextStyle.getTextStyleFontWeightw600G,
+        //     ),
+        //   ),
+        // ],
       ),
       body: Column(
         children: [
@@ -125,7 +122,6 @@ class _QueuePageState extends State<QueuePage> {
                                                 const TextSpan(text: " "),
                                                 TextSpan(
                                                   text: "Artist",
-                                                  // You can add more details here
                                                   style: AppTextStyle
                                                       .getTextStyle14FontWeightw200,
                                                 ),
@@ -141,7 +137,7 @@ class _QueuePageState extends State<QueuePage> {
                                         onPressed: () {
                                           _makePhoneCall(
                                               'tel:${widget.phoneNumber}');
-                                          print(widget.phoneNumber);
+                                          print('Panel phone number : ${widget.phoneNumber}');
                                         },
                                       ),
                                     ],
@@ -168,25 +164,18 @@ class _QueuePageState extends State<QueuePage> {
                   : Colors.grey,
               onPressed: () async {
                 if (_viewModel.selectedIndex == null) return;
-
                 final selectedBooking = _viewModel.bookings[_viewModel.selectedIndex!];
-
                 if (selectedBooking.started == 1 && selectedBooking.finished == 1) {
-                  // Navigate to a new page
-                  Get.to(() => RatingPage());
+                  Get.to(() => RatingPage(bookingId: selectedBooking.id,bookingPrice: selectedBooking.price?.toDouble(),serviceProviderId: widget.serviceProvideId,));
                 } else if (selectedBooking.started == 1) {
-                  // Show Snackbar
                   CustomSnackBar.showSnackBar("This service is Started");
                   print(selectedBooking.started);
                 } else {
-                  // Cancel booking and fetch data
                   await _viewModel.cancelBooking(selectedBooking.id!);
                   await _viewModel.fetchData(widget.serviceProvideId);
-
                   setState(() {
                     _viewModel.selectedIndex = null;
                   });
-
                   print('selectId: ${selectedBooking.id}');
                 }
               },
@@ -277,38 +266,6 @@ class _QueuePageState extends State<QueuePage> {
                   ],
                 ),
               ),
-              // Container(
-              //   margin: const EdgeInsets.only(top: 20),
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.end,
-              //     children: [
-              //       Container(
-              //         height: 20,
-              //         width: 50,
-              //         decoration: BoxDecoration(
-              //           color: const Color(0xff2158FF),
-              //           borderRadius: BorderRadius.circular(5),
-              //           border: Border.all(
-              //             color: Colors.black,
-              //             width: 1,
-              //           ),
-              //         ),
-              //         child: Padding(
-              //           padding: const EdgeInsets.all(2),
-              //           child: Center(
-              //             child: Text(
-              //               AppString.original,
-              //               style: AppTextStyle.getTextStyle10FontWeightw300,
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //       const SizedBox(height: 8),
-              //       textSpan(AppString.startedAt, AppString.elevenAm),
-              //       textSpan(AppString.duration, AppString.twentyMinutes),
-              //     ],
-              //   ),
-              // ),
             ],
           ),
         ),
@@ -331,7 +288,6 @@ class _QueuePageState extends State<QueuePage> {
               setState(() {
                 _viewModel.selectedIndex = i; // Set the selected index
               });
-              //if(booking.started == 1 && booking.finished == 1)
             },
             child: Container(
               decoration: BoxDecoration(
@@ -349,7 +305,6 @@ class _QueuePageState extends State<QueuePage> {
                   child: Container(
                     color: Colors.white,
                     child: Image.asset('assets/admin_icon.png',height: 35,width: 35,),
-
                     //SvgPicture.asset('assets/google.svg'),
                   ),
                 ),

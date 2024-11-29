@@ -25,27 +25,35 @@ class _ImageUploadWebState extends State<ImageUploadWeb> {
 
   // Function to upload image
   Future<void> uploadImage() async {
-    if (_selectedImage == null) return;
-
-    var uri = Uri.parse('$BASE_URL/upload');
+    if (_selectedImage == null) {
+      print("No image selected");
+      return;
+    }
+    var uri = Uri.parse('$BASE_URL/upload_image');
     var request = http.MultipartRequest('POST', uri);
 
-    // Create a multipart file from the image bytes
+    // Add the selected image file
     request.files.add(http.MultipartFile.fromBytes(
-      'image', // Match the field name in the Node.js backend
-      _selectedImage!,
-      filename: 'image.jpg',
+      'image',  // Must match the field name in the Node.js backend
+      _selectedImage!, // Convert File to bytes
+      filename: 'uploaded_image.jpg',
     ));
 
-    var response = await request.send();
-    // Send the request
-    var responseString = await response.stream.bytesToString();
-    if (response.statusCode == 200) {
-      print("Image uploaded successfully: $responseString");
-    } else {
-      print("Failed to upload image: $responseString");
+    try {
+      // Send the request
+      var response = await request.send();
+      var responseString = await response.stream.bytesToString();
+
+      if (response.statusCode == 200) {
+        print("Image uploaded successfully: $responseString");
+      } else {
+        print("Failed to upload image: $responseString");
+      }
+    } catch (error) {
+      print("Error occurred: $error");
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

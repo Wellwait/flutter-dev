@@ -9,10 +9,13 @@ import 'package:salon_app/models/salon_timing.dart';
 import 'package:salon_app/utils/common_variables.dart';
 
 import '../Screens/booking2/booking_screen2.dart';
+import '../dummydata.dart';
 import '../home_screen/home_screen_viewmodel.dart';
 import '../utils/app_text_style.dart';
 import '../utils/colors.dart';
+import '../utils/constants.dart';
 import '../widget/custom_button.dart';
+import '../widget/snack_bar_widget.dart';
 import 'sp_detail_viewmodel.dart';
 
 class ServiceProviderDetailPage extends StatefulWidget {
@@ -164,12 +167,20 @@ class _ServiceProviderDetailPageState extends State<ServiceProviderDetailPage> {
                           _homePageViewModel.services.length,
                               (serviceIndex) {
                             final service = _homePageViewModel.services[serviceIndex];
+                            final List<String> promoImages = (service.promoImage ?? '')
+                                .split(',')
+                                .map((s) => s.trim())
+                                .toList();
+                            // Use the first promo image if available; otherwise, use a dummy image
+                            final String salonServiceProviderImage = (promoImages.isNotEmpty && promoImages[0].isNotEmpty)
+                                ? '$BASE_URL/uploads/${promoImages[0]}'
+                                : dummyimage;
                             // Check if the current service's provider ID matches the panel's provider ID
                             if (service.serviceProviderId == panel.serviceProviderId) {
                               return CardWidget(
                                 title: service.name ?? "Unnamed Service",
                                 subtitle: "${service.price ?? 0}",
-                                imagePath: service.promoImage ?? '', // Provide a default value if null
+                                imagePath: salonServiceProviderImage ?? '', // Provide a default value if null
                                 serivceId: service.id!,
                                  onServiceAdded: (title, subtitle, imagePath, serviceId, panelId) {
                                   _viewModel.onServiceAdded(title, subtitle, imagePath, serviceId, panelId);
@@ -287,12 +298,19 @@ class _ServiceProviderDetailPageState extends State<ServiceProviderDetailPage> {
                                   itemCount: _homePageViewModel.services.length,
                                   itemBuilder: (context, serviceIndex) {
                                     final service = _homePageViewModel.services[serviceIndex];
-
+                                    final List<String> promoImages = (service.promoImage ?? '')
+                                        .split(',')
+                                        .map((s) => s.trim())
+                                        .toList();
+                                    // Use the first promo image if available; otherwise, use a dummy image
+                                    final String salonServiceProviderImage = (promoImages.isNotEmpty && promoImages[0].isNotEmpty)
+                                        ? '$BASE_URL/uploads/${promoImages[0]}'
+                                        : dummyimage;
                                     // Check if the current service's provider ID matches the panel's provider ID
                                     if (service.serviceProviderId == panel.serviceProviderId) {
                                       return Padding(
                                         padding: const EdgeInsets.only(right: 10), // Space between images
-                                        child: imageCard(service.promoImage!), // Display the service image
+                                        child: imageCard(salonServiceProviderImage), // Display the service image
                                       );
                                     }
                                     return SizedBox.shrink(); // Return empty box if no match
@@ -382,14 +400,10 @@ class _ServiceProviderDetailPageState extends State<ServiceProviderDetailPage> {
 
   Widget imageCard(String imagePath) {
     return Container(
-      width: 100, // Specify width for the images
-      height: 100, // Specify height for the images
+      width: 100,
+      height: 100,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        // image: DecorationImage(
-        //   image: AssetImage(imagePath),
-        //   fit: BoxFit.cover,
-        // ),
       ),
       child: CachedNetworkImage(
         fit: BoxFit.cover,
@@ -505,6 +519,10 @@ class _ServiceProviderDetailPageState extends State<ServiceProviderDetailPage> {
             child: IconButton(
               icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black,size: 30,),
               onPressed: () {
+                if(_viewModel.selectedServices.length > 0 ) {
+                  CustomSnackBar.showSnackBar("All the selected services will be removed");
+                  _viewModel.selectedServices.clear();
+                }
                 Navigator.pop(context); // Navigate back when pressed
               },
             ),

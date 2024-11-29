@@ -16,7 +16,7 @@ class QueueViewModel extends ChangeNotifier {
   List<Booking> bookings = [];
   bool isLoading = false;
   String? errorMessage;
-  int selectIndex= 0;
+  int selectIndex = 0;
 
   Future<void> fetchData(int serviceProviderId) async {
     isLoading = true;
@@ -49,7 +49,6 @@ class QueueViewModel extends ChangeNotifier {
       notifyListeners(); // Refresh UI
     }
   }
-
 
 
   refreshUI() {

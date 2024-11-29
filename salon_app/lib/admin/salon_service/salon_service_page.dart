@@ -1,11 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:salon_app/admin/salon_service/salon_service_viewmodel.dart';
 import 'package:salon_app/utils/colors.dart';
+import 'package:salon_app/utils/constants.dart';
 import '../../utils/app_strings.dart';
 import '../../utils/app_text_style.dart';
 import '../../widget/custom_button.dart';
+import '../admin_email_login/admin_email_login_viewmodel.dart';
 
 class SalonServicePage extends StatefulWidget {
   final Function()? onNext;
@@ -23,6 +26,7 @@ class _SalonServicePageState extends State<SalonServicePage> {
   @override
   Widget build(BuildContext context) {
     _viewModel = context.watch<SalonServiceViewModel>();
+    _viewModel.adminEmailLoginViewModel = context.watch<AdminEmailLoginViewModel>();
     return Scaffold(
       body: Column(
         children: [
@@ -63,8 +67,8 @@ class _SalonServicePageState extends State<SalonServicePage> {
                             child: Row(
                               children: [
                                 // Display selected images as a list
-                                ..._viewModel.selectedImages.map(
-                                      (image) => Padding(
+                                ...?_viewModel.selectedServiceProviderImage.map(
+                                      (imageBytes) => Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
                                       width: 118,
@@ -72,15 +76,34 @@ class _SalonServicePageState extends State<SalonServicePage> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         image: DecorationImage(
-                                          image: FileImage(File(image.path)),
+                                          image: MemoryImage(imageBytes), // Use MemoryImage for Uint8List
                                           fit: BoxFit.cover,
                                         ),
                                       ),
                                     ),
                                   ),
                                 ).toList(),
+
+                                // ..._viewModel.selectedImages.map(
+                                //       (image) => Padding(
+                                //     padding: const EdgeInsets.all(8.0),
+                                //     child: Container(
+                                //       width: 118,
+                                //       height: 117,
+                                //       decoration: BoxDecoration(
+                                //         borderRadius: BorderRadius.circular(10),
+                                //         image: DecorationImage(
+                                //           image: FileImage(File(image.path)),
+                                //           fit: BoxFit.cover,
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ).toList(),
                                 GestureDetector(
-                                  onTap: _viewModel.pickImages,
+                                  onTap: () {
+                                    _viewModel.pickServiceProviderImage();
+                                  },
                                   child: Container(
                                     margin: const EdgeInsets.all(14),
                                     padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 25),
@@ -129,25 +152,24 @@ class _SalonServicePageState extends State<SalonServicePage> {
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               children: [
-                                // Display selected banner images as a list
-                                ..._viewModel.selectedBannerImages.map(
-                                      (image) => Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      width: 118,
-                                      height: 117,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        image: DecorationImage(
-                                          image: FileImage(File(image.path)),
-                                          fit: BoxFit.cover,
-                                        ),
+                            ...?_viewModel.selectedServiceProviderBanner.map(
+                            (imageBytes) => Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    width: 118,
+                                    height: 117,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(
+                                        image: MemoryImage(imageBytes), // Use MemoryImage for Uint8List
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
-                                ).toList(),
+                                ),
+                            ).toList(),
                                 GestureDetector(
-                                  onTap: _viewModel.pickBannerImages,
+                                  onTap: _viewModel.pickServiceProviderBanner,
                                   child: Container(
                                     margin: const EdgeInsets.all(14),
                                     padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 25),
@@ -337,23 +359,36 @@ class _SalonServicePageState extends State<SalonServicePage> {
   Future<void> _openAddServiceDialog() async {
     String newService = '';
     String servicePrice = '';
-    String promoImageUrl = '';
+    String imageName = '';
     String? selectedCategory = 'Women'; // Default selected category
-
     await showDialog(
       context: context,
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (context, setState) {
-            return AlertDialog(
-              title: const Text('Add Service'),
-              content: SingleChildScrollView(
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    // Title of dialog
+                    const Text(
+                      'Add Service',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 20),
                     // Dropdown for Category Selection
                     SizedBox(
-                      width: double.infinity,
+                      width: double.infinity, // Full width for dropdown
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         decoration: BoxDecoration(
@@ -413,54 +448,107 @@ class _SalonServicePageState extends State<SalonServicePage> {
                       },
                     ),
                     const SizedBox(height: 10),
-                    // TextField for Promo Image URL
-                    TextField(
-                      decoration: const InputDecoration(
-                        labelText: 'Promo Image URL',
-                        hintText: 'Enter image URL',
-                        border: OutlineInputBorder(),
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          promoImageUrl = value;
-                        });
-                      },
+                    Row(
+                      children: [
+                        // Container to show image name
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(color: Colors.black54, width: 1),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: Text(
+                                _viewModel.imageName.isNotEmpty
+                                    ? _viewModel.imageName
+                                    : "No image selected",
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black54,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        // IconButton for uploading image
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(6),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: IconButton(
+                            icon: const Icon(Icons.upload_file, color: Colors.black, size: 25),
+                            onPressed: () async {
+                              await _viewModel.pickImage();
+                              setState(() {});
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomButtonWidget(
+                          text: AppString.cancel,
+                          textColor: Colors.black,
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          buttonColor: Colors.white,
+                          borderRadius: 5,
+                          buttonHeight: 40,
+                          borderColor: Colors.black54,
+                          buttonWidth: 100,
+                        ),
+                        CustomButtonWidget(
+                          text: "Add Service",
+                          textColor: Colors.white,
+                          onPressed: () {
+                            if (newService.isNotEmpty &&
+                                servicePrice.isNotEmpty &&
+                                //promoImageUrl.isNotEmpty &&
+                                _viewModel.imageName.isNotEmpty &&
+                                selectedCategory != null) {
+                              // Call the API to add the service
+                              _viewModel.fetchData(
+                                selectedCategory!,
+                                newService,
+                                servicePrice,
+                              );
+                              Navigator.of(context).pop(); // Close the dialog
+                            }
+                          },
+                          buttonColor: fabricColor,
+                          borderRadius: 5,
+                          buttonHeight: 40,
+                          buttonWidth: 130,
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Close dialog without adding
-                  },
-                  child: const Text('Cancel'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    if (newService.isNotEmpty &&
-                        servicePrice.isNotEmpty &&
-                        promoImageUrl.isNotEmpty &&
-                        selectedCategory != null) {
-                      // Call the API to add the service
-                      _viewModel.fetchData(
-                        selectedCategory!,
-                        newService,
-                        servicePrice,
-                        promoImageUrl,
-                        context
-                      );
-                      Navigator.of(context).pop(); // Close the dialog
-                    }
-                  },
-                  child: const Text('Add Service'),
-                ),
-              ],
             );
           },
         );
       },
     );
   }
+
 
 }

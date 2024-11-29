@@ -10,6 +10,8 @@ class ServicesProvider {
   final String? promoImages;
   double? averageRating; // Make this nullable
   int? totalRatings;     // Make this nullable
+  final String? photo;
+  final String? imageUrl;
 
   ServicesProvider({
     this.id,
@@ -23,6 +25,8 @@ class ServicesProvider {
     this.promoImages,
     this.averageRating,
     this.totalRatings,
+    this.photo,
+    this.imageUrl,
   });
 
   ServicesProvider copyWith({
@@ -37,6 +41,8 @@ class ServicesProvider {
     String? promoImages,
     double? averageRating,
     int? totalRatings,
+    String? photo,
+    String? imageUrl,
   }) =>
       ServicesProvider(
         id: id ?? this.id,
@@ -50,6 +56,8 @@ class ServicesProvider {
         promoImages: promoImages ?? this.promoImages,
         averageRating: averageRating ?? this.averageRating,
         totalRatings: totalRatings ?? this.totalRatings,
+        photo: photo ?? this.photo,
+        imageUrl: imageUrl ?? this.imageUrl,
       );
 
   factory ServicesProvider.fromJson(Map<String, dynamic> json) => ServicesProvider(
@@ -64,6 +72,8 @@ class ServicesProvider {
     promoImages: json["promo_images"],
     averageRating: json["average_rating"]?.toDouble(), // Parse averageRating
     totalRatings: json["total_ratings"], // Parse totalRatings
+    photo: json['photo'],
+    imageUrl: json['image_urls'],
   );
 
   Map<String, dynamic> toJson() => {
@@ -78,5 +88,7 @@ class ServicesProvider {
     "promo_images": promoImages,
     "average_rating": averageRating, // Include in toJson
     "total_ratings": totalRatings,     // Include in toJson
+    "photo": photo,
+    "image_urls": imageUrl,
   };
 }
