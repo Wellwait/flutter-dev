@@ -105,8 +105,8 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor: Colors.white,
           ),
           getPages: [
-            GetPage(name: '/', page: () => SplashScreen()),
-            //GetPage(name: '/', page: () => AdminEmailLoginPage()),
+            //GetPage(name: '/', page: () => SplashScreen()),
+            GetPage(name: '/', page: () => AdminEmailLoginPage()),
 
           ],
         ),

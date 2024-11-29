@@ -24,10 +24,10 @@ class _StepperNavBarState extends State<StepperNavBar> {
 
     // Initialize the pages with callbacks for navigation
     _pages = [
-      SalonServicePage(
-        onNext: () => goToNextStep(3),
-        onBack: () => goToPreviousStep(),
-      ),
+      // SalonServicePage(
+      //   onNext: () => goToNextStep(3),
+      //   onBack: () => goToPreviousStep(),
+      // ),
       SalonDetailPage(
           onNext: () => goToNextStep(1),
           //onBack: () => goToPreviousStep(),
@@ -36,10 +36,10 @@ class _StepperNavBarState extends State<StepperNavBar> {
         onNext: () => goToNextStep(2),
         onBack: () => goToPreviousStep(),
       ),
-      // SalonServicePage(
-      //     onNext: () => goToNextStep(3),
-      //     onBack: () => goToPreviousStep(),
-      // ),
+      SalonServicePage(
+          onNext: () => goToNextStep(3),
+          onBack: () => goToPreviousStep(),
+      ),
       SalonDocumentsPage(
         onBack: () => goToPreviousStep(),
       ), // Last step has no "Next" button
